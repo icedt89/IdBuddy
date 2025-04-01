@@ -6,22 +6,25 @@
           <v-expansion-panels v-model="expanded" multiple>
             <release-notes-item
               is-current
+              version="v0.5.0"
+              :new-features="['Added locale setting to \'Current timestamp\'-generator', 'Improved responsiveness for small devices']"
+              :miscellaneous="[defaultDependenciesUpdatedMessage]" />
+            <release-notes-item
               version="v0.4.2"
               :new-features="['Added info section to some generators']"
               :miscellaneous="[defaultDependenciesUpdatedMessage]" />
             <release-notes-item
               version="v0.4.0"
-              :new-features="['Added Nano ID', 'Added Snowflake ID', 'Added Timestamp']"
-              :miscellaneous="[defaultDependenciesUpdatedMessage]" />
-            <release-notes-item
-              version="v0.3.0"
-              :new-features="['Added ULID', 'Added XID']"
+              :new-features="['Added \'Nano ID\'-generator', 'Added \'Snowflake ID\'-generator', 'Added \'Current timestamp\'-generator']"
               :miscellaneous="[defaultDependenciesUpdatedMessage]" />
             <release-notes-item
               version="v0.2.0"
-              :new-features="['Added UUID Empty', 'Added UUID v4', 'Added UUID v7']"
+              :new-features="['Added \'ULID\'-generator', 'Added \'XID\'-generator']"
               :miscellaneous="[defaultDependenciesUpdatedMessage]" />
-            <release-notes-item version="v0.1.0" :miscellaneous="['Initial release']" />
+            <release-notes-item
+              version="v0.1.0"
+              :new-features="['Added \'UUID Empty\'', 'Added \'UUID v4\'-generator', 'Added \'UUID v7\'-generator']"
+              :miscellaneous="[defaultDependenciesUpdatedMessage, 'Initial release']" />
           </v-expansion-panels>
         </v-card-text>
         <v-card-actions>

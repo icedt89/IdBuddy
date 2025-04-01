@@ -6,13 +6,27 @@
           variant="solo"
           class="mt-2"
           v-model.trim="formatProxy"
-          label="Date-fns format (required)"
+          label="Date-fns format*"
+          required
           density="compact"
           hide-details>
           <template #clear>
             <clear-button @click:reset="() => (formatProxy = 't')" />
           </template>
         </v-text-field>
+        <v-select
+          hide-details
+          class="mt-2"
+          density="compact"
+          variant="solo"
+          clearable
+          label="Date-fns locale"
+          v-model="selectedLocale"
+          :items="selectableLocales">
+          <template #clear>
+            <clear-button @click:reset="() => (selectedLocale = undefined)" />
+          </template>
+        </v-select>
       </template>
       <template #info>
         <v-card-text class="pt-0">
@@ -43,10 +57,12 @@ a {
 </style>
 
 <script setup lang="ts">
-import { formatDate } from "date-fns"
+import { formatDate, type FormatOptions } from "date-fns"
 import GeneratorExpansionPanel from "@/components/generators/GeneratorExpansionPanel.vue"
 import { computed, ref } from "vue"
 import ClearButton from "@/components/ClearButton.vue"
+import * as dateFnsLocales from "date-fns/locale"
+import { type Locale } from "date-fns/locale"
 
 const wasCopied = defineModel<boolean>("wasCopied", {
   required: true,
@@ -71,7 +87,26 @@ const formatProxy = computed({
   },
 })
 
+const locales = Object.entries(dateFnsLocales).reduce(
+  (a, c) => {
+    a[c[0]] = c[1]
+
+    return a
+  },
+  <{ [key: string]: Locale }>{}
+)
+
+const selectableLocales = Object.keys(locales)
+const selectedLocale = ref<string>()
+
 function generate(): string {
-  return formatDate(new Date(), format.value)
+  let formatOptions: FormatOptions | undefined = undefined
+  if (selectedLocale.value) {
+    formatOptions = {
+      locale: locales[selectedLocale.value],
+    }
+  }
+
+  return formatDate(new Date(), format.value, formatOptions)
 }
 </script>

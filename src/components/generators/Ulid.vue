@@ -11,7 +11,7 @@
           :max="ulidMaxValue"
           v-model.number="ulidSeedTimeProxy"
           hide-details
-          label="Seed Time (optional)"
+          label="Seed Time"
           density="compact">
           <template #clear>
             <clear-button @click:reset="() => (ulidSeedTimeProxy = undefined)" />

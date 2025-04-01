@@ -14,7 +14,8 @@
           step="1"
           v-model.number="snowflakeIdMachineIdProxy"
           hide-details
-          label="Machine ID"
+          label="Machine ID*"
+          required
           density="compact">
           <template #clear>
             <clear-button @click:reset="() => (snowflakeIdMachineIdProxy = machineIdMinValue)" />

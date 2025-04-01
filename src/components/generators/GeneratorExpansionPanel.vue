@@ -14,11 +14,11 @@
       </v-card>
       <history
         class="mb-1"
-        :class="{ 'opacity-20': !history.items.length }"
+        :class="{ 'opacity-30': !history.items.length }"
         :items="history.items"
         v-model:was-copied="wasCopied"
         density="compact" />
-      <v-card density="compact" v-if="$slots['info']" class="opacity-20">
+      <v-card density="compact" v-if="$slots['info']" class="opacity-30">
         <v-card-text class="pb-0">Info</v-card-text>
         <slot name="info" />
       </v-card>

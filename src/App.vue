@@ -37,13 +37,13 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
+          <v-col cols="12" md="4">
             <uuid-empty v-model:was-copied="wasCopied" />
           </v-col>
-          <v-col>
+          <v-col cols="12" md="4">
             <uuid-v4 v-model:was-copied="wasCopied" />
           </v-col>
-          <v-col>
+          <v-col cols="12" md="4">
             <current-timestamp v-model:was-copied="wasCopied" />
           </v-col>
         </v-row>
@@ -53,21 +53,21 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
+          <v-col cols="12" md="4">
             <uuid-v7 v-model:was-copied="wasCopied" />
           </v-col>
-          <v-col>
+          <v-col cols="12" md="4">
             <ulid v-model:was-copied="wasCopied" />
           </v-col>
-          <v-col>
+          <v-col cols="12" md="4">
             <xid v-model:was-copied="wasCopied" />
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
+          <v-col cols="12" md="4">
             <snowflake-id v-model:was-copied="wasCopied" />
           </v-col>
-          <v-col>
+          <v-col cols="12" md="4">
             <nano-id v-model:was-copied="wasCopied" />
           </v-col>
           <v-col />
