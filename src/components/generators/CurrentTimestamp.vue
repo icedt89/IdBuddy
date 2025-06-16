@@ -89,7 +89,7 @@ const formatProxy = computed({
 
 const locales = Object.entries(dateFnsLocales).reduce(
   (a, c) => {
-    a[c[0]] = c[1]
+    a[c[1].code] = c[1]
 
     return a
   },
