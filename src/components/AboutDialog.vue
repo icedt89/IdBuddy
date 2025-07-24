@@ -4,7 +4,7 @@
       <v-card title="About ID Buddy">
         <v-card-text>
           <v-expansion-panels v-model="expanded" multiple>
-            <release-notes-item is-current version="v0.5.1" :miscellaneous="[defaultDependenciesUpdatedMessage]" />
+            <release-notes-item is-current version="v0.5.1 - v0.5.2" :miscellaneous="[defaultDependenciesUpdatedMessage]" />
             <release-notes-item
               version="v0.5.0"
               :new-features="['Added locale setting to \'Current timestamp\'-generator', 'Improved responsiveness for small devices']"
