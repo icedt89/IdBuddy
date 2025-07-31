@@ -1,11 +1,11 @@
 export class LimitedSizeList<T> {
   private readonly _items = new Array<T>(0)
 
-  private readonly maxSize: number
+  private maxSize: number
 
   constructor(maxSize: number = 10) {
-    if (maxSize <= 0) {
-      throw new Error("maxSize must be greater than 0")
+    if (maxSize < 0) {
+      throw new Error('maxSize must be greater than or equal to 0')
     }
 
     this.maxSize = maxSize
@@ -17,6 +17,14 @@ export class LimitedSizeList<T> {
     if (this._items.length > this.maxSize) {
       this._items.pop()
     }
+  }
+
+  public resize(newMaxSize: number) {
+    if (this._items.length > newMaxSize) {
+      this._items.splice(newMaxSize)
+    }
+
+    this.maxSize = newMaxSize
   }
 
   public includes(value: T): boolean {

@@ -10,10 +10,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
 
-      - name: "> npm i"
+      - name: '> npm i'
         run: npm i
 
-      - name: "> npm run build"
+      - name: '> npm run build'
         run: npm run build
 
       - name: Upload build artifact

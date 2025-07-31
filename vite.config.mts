@@ -1,15 +1,18 @@
 // Plugins
-import Components from "unplugin-vue-components/vite"
-import Vue from "@vitejs/plugin-vue"
-import Vuetify, { transformAssetUrls } from "vite-plugin-vuetify"
-import ViteFonts from "unplugin-fonts/vite"
+import Components from 'unplugin-vue-components/vite'
+import Vue from '@vitejs/plugin-vue'
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+import ViteFonts from 'unplugin-fonts/vite'
 
 // Utilities
-import { defineConfig } from "vite"
-import { fileURLToPath, URL } from "node:url"
+import { defineConfig } from 'vite'
+import { fileURLToPath, URL } from 'node:url'
 
 export const alias = {
-  "@": fileURLToPath(new URL("./src", import.meta.url)),
+  '@': fileURLToPath(new URL('./src', import.meta.url)),
+  '@generators': fileURLToPath(
+    new URL('./src/components/generators', import.meta.url)
+  ),
 }
 
 // https://vitejs.dev/config/
@@ -18,23 +21,28 @@ export default defineConfig({
     Vue({
       template: { transformAssetUrls },
     }),
-    Vuetify(),
+    vuetify({
+      autoImport: true,
+      styles: {
+        configFile: 'src/styles/settings.scss',
+      },
+    }),
     Components(),
     ViteFonts({
       google: {
         families: [
           {
-            name: "Roboto",
-            styles: "wght@100;300;400;500;700;900",
+            name: 'Roboto',
+            styles: 'wght@100;300;400;500;700;900',
           },
         ],
       },
     }),
   ],
-  define: { "process.env": {} },
+  define: { 'process.env': {} },
   resolve: {
     alias,
-    extensions: [".js", ".json", ".jsx", ".mjs", ".ts", ".tsx", ".vue"],
+    extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue'],
   },
   server: {
     port: 3001,

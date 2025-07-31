@@ -2,7 +2,14 @@
   <v-expansion-panel>
     <v-expansion-panel-title>
       {{ version }}
-      <v-chip v-if="isCurrent" text="Current" color="success" rounded="xl" size="x-small" class="ml-2" />
+      <v-chip
+        v-if="isCurrent"
+        text="Current"
+        color="success"
+        rounded="xl"
+        size="x-small"
+        class="ml-2"
+      />
     </v-expansion-panel-title>
     <v-expansion-panel-text>
       <template v-if="newFeatures && newFeatures.length">

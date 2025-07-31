@@ -6,7 +6,10 @@
           <v-icon :icon="mdiIdentifier" size="40" />
         </v-avatar>
         ID Buddy
-        <span class="text-disabled font-italic text-caption opacity-50">by Jan Hafner</span>
+        <span class="text-disabled font-italic text-caption opacity-50">
+          by
+          <a href="https://jan-hafner.de" target="_blank">Jan Hafner</a>
+        </span>
       </v-app-bar-title>
       <template #append>
         <v-menu>
@@ -18,7 +21,22 @@
             <v-list>
               <!-- Setting just "value" will enable clickability on the list item -->
               <!-- value must get a distinct value to get rid of vuetify warnings -->
-              <v-list-item value="1" :prepend-icon="mdiInformationOutline" title="About ID Buddy">
+              <v-list-item value="1" :prepend-icon="mdiCog" title="Settings">
+                <settings-dialog activator="parent" />
+              </v-list-item>
+              <v-divider />
+              <v-list-item
+                value="2"
+                :prepend-icon="mdiDeleteOutline"
+                title="Reset"
+                @click="reset"
+              />
+              <v-divider />
+              <v-list-item
+                value="3"
+                :prepend-icon="mdiInformationOutline"
+                title="About ID Buddy"
+              >
                 <about-dialog activator="parent" />
               </v-list-item>
             </v-list>
@@ -29,48 +47,36 @@
 
     <v-main>
       <v-container class="ma-0" fluid>
-        <v-row>
-          <v-col>
-            <v-alert density="compact" variant="tonal" closable type="info" color="#fff" class="opacity-50">
-              ID Buddy lets you generate various identifiers primarily used by database engines
-            </v-alert>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="4">
-            <uuid-empty v-model:was-copied="wasCopied" />
-          </v-col>
-          <v-col cols="12" md="4">
-            <uuid-v4 v-model:was-copied="wasCopied" />
-          </v-col>
-          <v-col cols="12" md="4">
-            <current-timestamp v-model:was-copied="wasCopied" />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-divider class="my-3" />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="4">
-            <uuid-v7 v-model:was-copied="wasCopied" />
-          </v-col>
-          <v-col cols="12" md="4">
-            <ulid v-model:was-copied="wasCopied" />
-          </v-col>
-          <v-col cols="12" md="4">
-            <xid v-model:was-copied="wasCopied" />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="4">
-            <snowflake-id v-model:was-copied="wasCopied" />
-          </v-col>
-          <v-col cols="12" md="4">
-            <nano-id v-model:was-copied="wasCopied" />
-          </v-col>
-          <v-col />
+        <v-alert
+          v-if="areAllGeneratorsHidden"
+          border="start"
+          type="info"
+          variant="tonal"
+        >
+          All generators are hidden
+          <v-btn
+            text="Show all"
+            class="ml-2"
+            size="small"
+            variant="tonal"
+            @click="unhideAllGenerators()"
+          />
+        </v-alert>
+
+        <v-row v-if="generatorsList.length">
+          <template v-for="generator in generatorsList">
+            <v-col
+              cols="12"
+              md="4"
+              v-if="isGeneratorVisible(generator.identifier)"
+            >
+              <Component
+                :is="generator.component"
+                v-model:was-copied="wasCopied"
+                :title="generator.displayName"
+              />
+            </v-col>
+          </template>
         </v-row>
       </v-container>
     </v-main>
@@ -79,18 +85,24 @@
 </template>
 
 <script setup lang="ts">
-import { mdiIdentifier, mdiDotsVertical, mdiInformationOutline } from "@mdi/js"
-import { ref } from "vue"
-import CopySuccessSnackbar from "@/components/CopySuccessSnackbar.vue"
-import AboutDialog from "@/components/AboutDialog.vue"
-import UuidEmpty from "@/components/generators/UuidEmpty.vue"
-import UuidV4 from "@/components/generators/UuidV4.vue"
-import UuidV7 from "@/components/generators/UuidV7.vue"
-import Ulid from "@/components/generators/Ulid.vue"
-import Xid from "@/components/generators/Xid.vue"
-import SnowflakeId from "@/components/generators/SnowflakeId.vue"
-import NanoId from "@/components/generators/NanoId.vue"
-import CurrentTimestamp from "@/components/generators/CurrentTimestamp.vue"
+import {
+  mdiIdentifier,
+  mdiDotsVertical,
+  mdiInformationOutline,
+  mdiCog,
+  mdiDeleteOutline,
+} from '@mdi/js'
+import { ref } from 'vue'
+import CopySuccessSnackbar from '@/components/CopySuccessSnackbar.vue'
+import AboutDialog from '@/components/AboutDialog.vue'
+import SettingsDialog from '@/components/SettingsDialog.vue'
+import { useSettingsStore } from '@/stores/settings-store'
+import { generatorsList } from '@generators/generators'
+import { storeToRefs } from 'pinia'
+
+const settingsStore = useSettingsStore()
+const { areAllGeneratorsHidden } = storeToRefs(settingsStore)
+const { isGeneratorVisible, unhideAllGenerators, reset } = settingsStore
 
 const wasCopied = ref(false)
 </script>

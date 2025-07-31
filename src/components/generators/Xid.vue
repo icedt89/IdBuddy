@@ -1,14 +1,23 @@
 <template>
   <v-expansion-panels>
-    <generator-expansion-panel title="XID" v-model:was-copied="wasCopied" :value-generator="() => new Xid().toString()" />
+    <generator-expansion-panel
+      :title="title"
+      v-model:was-copied="wasCopied"
+      :value-generator="() => new Xid().toString()"
+      has-details
+      can-regenerate
+    />
   </v-expansion-panels>
 </template>
 
 <script setup lang="ts">
-import { Xid } from "xid-ts"
-import GeneratorExpansionPanel from "@/components/generators/GeneratorExpansionPanel.vue"
+import { Xid } from 'xid-ts'
+import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
+import type { GeneratorProps } from '@generators/generator-props'
 
-const wasCopied = defineModel<boolean>("wasCopied", {
+defineProps<GeneratorProps>()
+
+const wasCopied = defineModel<boolean>('wasCopied', {
   required: true,
   default: false,
 })

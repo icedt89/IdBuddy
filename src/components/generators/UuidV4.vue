@@ -1,14 +1,23 @@
 <template>
   <v-expansion-panels>
-    <generator-expansion-panel title="UUID v4" v-model:was-copied="wasCopied" :value-generator="() => v4()" />
+    <generator-expansion-panel
+      :title="title"
+      v-model:was-copied="wasCopied"
+      :value-generator="() => v4()"
+      has-details
+      can-regenerate
+    />
   </v-expansion-panels>
 </template>
 
 <script setup lang="ts">
-import { v4 } from "uuid"
-import GeneratorExpansionPanel from "@/components/generators/GeneratorExpansionPanel.vue"
+import { v4 } from 'uuid'
+import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
+import type { GeneratorProps } from '@generators/generator-props'
 
-const wasCopied = defineModel<boolean>("wasCopied", {
+defineProps<GeneratorProps>()
+
+const wasCopied = defineModel<boolean>('wasCopied', {
   required: true,
   default: false,
 })

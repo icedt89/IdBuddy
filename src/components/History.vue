@@ -1,17 +1,33 @@
 <template>
   <v-card>
-    <v-card-text>
+    <v-card-text class="pt-0" :class="{ 'opacity-50': !items.length }">
       <div class="d-flex">
         <div class="me-auto">History</div>
-        <clear-button v-if="items.length" tooltip-text="Clear history" @click:reset="clearHistory" />
+        <clear-button
+          v-if="items.length"
+          tooltip-text="Clear history"
+          class="mr-1"
+          @click:reset="clearHistory"
+        />
       </div>
-      <div v-if="!items.length">
-        <small>
+      <small>
+        <template v-if="!isHistoryEnabled">
+          <em>History is disabled</em>
+        </template>
+        <template v-else-if="!items.length">
           <em>Generate something first</em>
-        </small>
-      </div>
-      <template v-else>
-        <v-text-field readonly hide-details density="compact" variant="plain" :model-value="item" v-for="item in items" :key="item">
+        </template>
+      </small>
+      <template v-if="!!items.length">
+        <v-text-field
+          readonly
+          hide-details
+          density="compact"
+          variant="plain"
+          :model-value="item"
+          v-for="item in items"
+          :key="item"
+        >
           <template #append-inner>
             <copy-button v-model:was-copied="wasCopied" :value="item" />
           </template>
@@ -28,14 +44,18 @@
 </style>
 
 <script setup lang="ts">
-import CopyButton from "@/components/CopyButton.vue"
-import ClearButton from "@/components/ClearButton.vue"
+import CopyButton from '@/components/CopyButton.vue'
+import ClearButton from '@/components/ClearButton.vue'
+import { storeToRefs } from 'pinia'
+import { useSettingsStore } from '@/stores/settings-store'
+
+const { isHistoryEnabled } = storeToRefs(useSettingsStore())
 
 const props = defineProps<{
   items: string[]
 }>()
 
-const wasCopied = defineModel<boolean>("wasCopied", {
+const wasCopied = defineModel<boolean>('wasCopied', {
   required: true,
   default: false,
 })

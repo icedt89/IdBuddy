@@ -1,46 +1,59 @@
 <template>
   <v-expansion-panels>
     <generator-expansion-panel
-      title="Snowflake ID"
+      :title="title"
       v-model:was-copied="wasCopied"
-      :value-generator="() => new Snowflake(snowflakeIdMachineIdProxy).generate()">
+      :value-generator="
+        () => new Snowflake(snowflakeIdMachineIdProxy).generate()
+      "
+      has-details
+      can-regenerate
+    >
       <template #settings>
-        <v-text-field
+        <v-number-input
           variant="solo"
           class="mt-2"
           type="number"
           :min="machineIdMinValue"
           :max="machineIdMaxValue"
-          step="1"
-          v-model.number="snowflakeIdMachineIdProxy"
-          hide-details
-          label="Machine ID*"
+          :step="1"
+          control-variant="stacked"
+          v-model="snowflakeIdMachineIdProxy"
+          label="Machine ID"
           required
-          density="compact">
+        >
           <template #clear>
-            <clear-button @click:reset="() => (snowflakeIdMachineIdProxy = machineIdMinValue)" />
+            <clear-button
+              @click:reset="
+                () => (snowflakeIdMachineIdProxy = machineIdMinValue)
+              "
+            />
           </template>
-        </v-text-field>
-      </template>
-      <template #info>
-        <v-card-text class="pt-0">
-          <small>Machine ID must be a positive integer ({{ machineIdMinValue }} - {{ machineIdMaxValue }})</small>
-        </v-card-text>
+          <template #details>
+            <small class="opacity-50"
+              >Machine ID must be a positive integer ({{ machineIdMinValue }} -
+              {{ machineIdMaxValue }})</small
+            >
+          </template>
+        </v-number-input>
       </template>
     </generator-expansion-panel>
   </v-expansion-panels>
 </template>
 
 <script setup lang="ts">
-import { Snowflake } from "@skorotkiewicz/snowflake-id"
-import GeneratorExpansionPanel from "@/components/generators/GeneratorExpansionPanel.vue"
-import { computed, ref } from "vue"
-import ClearButton from "@/components/ClearButton.vue"
+import { Snowflake } from '@skorotkiewicz/snowflake-id'
+import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
+import { computed, ref } from 'vue'
+import ClearButton from '@/components/ClearButton.vue'
+import type { GeneratorProps } from '@generators/generator-props'
+
+defineProps<GeneratorProps>()
 
 const machineIdMinValue = 0
 const machineIdMaxValue = 1023
 
-const wasCopied = defineModel<boolean>("wasCopied", {
+const wasCopied = defineModel<boolean>('wasCopied', {
   required: true,
   default: false,
 })
@@ -48,14 +61,14 @@ const wasCopied = defineModel<boolean>("wasCopied", {
 const snowflakeIdMachineId = ref<number | string>(0)
 const snowflakeIdMachineIdProxy = computed({
   get() {
-    if (snowflakeIdMachineId.value === "") {
+    if (snowflakeIdMachineId.value === '') {
       return machineIdMinValue
     }
 
     return +snowflakeIdMachineId.value
   },
   set(newValue: number | string) {
-    if (newValue !== "") {
+    if (newValue !== '') {
       let asNumber = +newValue
       if (asNumber < machineIdMinValue) {
         asNumber = machineIdMinValue

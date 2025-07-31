@@ -1,50 +1,62 @@
 <template>
   <v-expansion-panels>
-    <generator-expansion-panel title="ULID" v-model:was-copied="wasCopied" :value-generator="() => ulid(ulidSeedTimeProxy)">
+    <generator-expansion-panel
+      :title="title"
+      v-model:was-copied="wasCopied"
+      :value-generator="() => ulid(ulidSeedTimeProxy)"
+      has-details
+      can-regenerate
+    >
       <template #settings>
-        <v-text-field
+        <v-number-input
           variant="solo"
           class="mt-2"
           type="number"
-          step="1"
+          :step="1"
           :min="ulidMinValue"
           :max="ulidMaxValue"
-          v-model.number="ulidSeedTimeProxy"
-          hide-details
+          v-model="ulidSeedTimeProxy"
+          control-variant="stacked"
           label="Seed Time"
-          density="compact">
+        >
           <template #clear>
-            <clear-button @click:reset="() => (ulidSeedTimeProxy = undefined)" />
+            <clear-button
+              @click:reset="() => (ulidSeedTimeProxy = undefined)"
+            />
           </template>
-        </v-text-field>
-      </template>
-      <template #info>
-        <v-card-text class="pt-0">
-          <small>Seed Time must be a positive integer {{ ulidMinValue }} - {{ ulidMaxValue }})</small>
-        </v-card-text>
+          <template #details>
+            <small class="opacity-50"
+              >Seed Time must be a positive integer ({{ ulidMinValue }} -
+              {{ ulidMaxValue }})</small
+            >
+          </template>
+        </v-number-input>
       </template>
     </generator-expansion-panel>
   </v-expansion-panels>
 </template>
 
 <script setup lang="ts">
-import { ulid } from "ulidx"
-import GeneratorExpansionPanel from "@/components/generators/GeneratorExpansionPanel.vue"
-import { computed, ref } from "vue"
-import ClearButton from "@/components/ClearButton.vue"
+import { ulid } from 'ulidx'
+import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
+import { computed, ref } from 'vue'
+import ClearButton from '@/components/ClearButton.vue'
+import type { GeneratorProps } from '@generators/generator-props'
+
+defineProps<GeneratorProps>()
 
 const ulidMinValue = 0
 const ulidMaxValue = 281474976710655
 
-const wasCopied = defineModel<boolean>("wasCopied", {
+const wasCopied = defineModel<boolean>('wasCopied', {
   required: true,
   default: false,
 })
 
-const ulidSeedTime = ref<number | string>("")
+const ulidSeedTime = ref<number | string>('')
 const ulidSeedTimeProxy = computed({
   get() {
-    if (ulidSeedTime.value === "") {
+    if (ulidSeedTime.value === '') {
       return undefined
     }
 
@@ -52,10 +64,10 @@ const ulidSeedTimeProxy = computed({
   },
   set(newValue: number | string) {
     if (newValue === null || newValue === undefined) {
-      newValue = ""
+      newValue = ''
     }
 
-    if (newValue !== "") {
+    if (newValue !== '') {
       let asNumber = +newValue
       if (asNumber < ulidMinValue) {
         asNumber = ulidMinValue

@@ -1,15 +1,15 @@
-import { alias } from "./vite.config.mjs"
-import { defineConfig } from "vitest/config"
+import { alias } from './vite.config.mjs'
+import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   resolve: {
     alias,
-    extensions: [".ts"],
+    extensions: ['.ts'],
   },
   test: {
     coverage: {
-      provider: "v8",
-      reporter: ["text", "lcov"],
+      provider: 'v8',
+      reporter: ['text', 'lcov'],
     },
   },
 })
