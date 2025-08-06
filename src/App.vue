@@ -28,9 +28,10 @@
               <v-list-item
                 value="2"
                 :prepend-icon="mdiDeleteOutline"
-                title="Reset"
-                @click="reset"
-              />
+                title="Reset App State"
+              >
+                <reset-app-state-dialog activator="parent" />
+              </v-list-item>
               <v-divider />
               <v-list-item
                 value="3"
@@ -99,10 +100,11 @@ import SettingsDialog from '@/components/SettingsDialog.vue'
 import { useSettingsStore } from '@/stores/settings-store'
 import { generatorsList } from '@generators/generators'
 import { storeToRefs } from 'pinia'
+import ResetAppStateDialog from '@/components/ResetAppStateDialog.vue'
 
 const settingsStore = useSettingsStore()
 const { areAllGeneratorsHidden } = storeToRefs(settingsStore)
-const { isGeneratorVisible, unhideAllGenerators, reset } = settingsStore
+const { isGeneratorVisible, unhideAllGenerators } = settingsStore
 
 const wasCopied = ref(false)
 </script>

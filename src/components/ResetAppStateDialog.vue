@@ -1,0 +1,47 @@
+<template>
+  <v-dialog max-width="400">
+    <template #default="{ isActive }">
+      <v-card title="Reset App State">
+        <v-card-text>
+          <div class="mb-3">This will reset the App to their defaults.</div>
+
+          <v-checkbox
+            label="Settings"
+            v-model="shouldResetSettingsStore"
+            color="primary"
+            density="compact"
+            hide-details
+            disabled
+          />
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+            text="Reset"
+            :disabled="!shouldResetAny"
+            variant="tonal"
+            rounded="xs"
+            @click="resetAppState(isActive)"
+          />
+        </v-card-actions>
+      </v-card>
+    </template>
+  </v-dialog>
+</template>
+
+<script setup lang="ts">
+import { useSettingsStore } from '@/stores/settings-store'
+import { computed, ref, type Ref } from 'vue'
+
+const shouldResetSettingsStore = ref(true)
+const { reset: resetSettingsStore } = useSettingsStore()
+
+const shouldResetAny = computed(() => shouldResetSettingsStore.value)
+
+function resetAppState(isActive: Ref<boolean>) {
+  if (shouldResetSettingsStore.value) {
+    resetSettingsStore()
+  }
+
+  isActive.value = false
+}
+</script>

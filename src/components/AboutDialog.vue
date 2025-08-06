@@ -11,6 +11,11 @@
           <v-expansion-panels v-model="expanded" multiple>
             <release-notes-item
               is-current
+              version="v0.5.4"
+              :new-features="['Added dialog for resetting the App to defaults']"
+              :miscellaneous="[defaultDependenciesUpdatedMessage]"
+            />
+            <release-notes-item
               version="v0.5.3"
               :new-features="[
                 'Made history size configurable',

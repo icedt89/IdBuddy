@@ -19,6 +19,7 @@ declare module 'vue' {
     NanoId: typeof import('./src/components/generators/NanoId.vue')['default']
     RegenerateButton: typeof import('./src/components/RegenerateButton.vue')['default']
     ReleaseNotesItem: typeof import('./src/components/ReleaseNotesItem.vue')['default']
+    ResetAppStateDialog: typeof import('./src/components/ResetAppStateDialog.vue')['default']
     SettingsDialog: typeof import('./src/components/SettingsDialog.vue')['default']
     SnowflakeId: typeof import('./src/components/generators/SnowflakeId.vue')['default']
     Ulid: typeof import('./src/components/generators/Ulid.vue')['default']
