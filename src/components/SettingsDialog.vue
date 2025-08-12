@@ -2,7 +2,7 @@
   <v-dialog max-width="500">
     <template #default="{ isActive }">
       <v-card title="Settings">
-        <v-card-text>
+        <v-card-text class="pb-0">
           <v-number-input
             v-model="historySizeProxy"
             validate-on="eager"

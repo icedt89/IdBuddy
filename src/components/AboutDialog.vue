@@ -2,7 +2,7 @@
   <v-dialog max-width="700">
     <template #default="{ isActive }">
       <v-card title="About ID Buddy">
-        <v-card-text>
+        <v-card-text class="pb-0">
           <div class="mb-3">
             ID Buddy lets you generate various identifiers primarily used by
             database engines.
@@ -11,6 +11,11 @@
           <v-expansion-panels v-model="expanded" multiple>
             <release-notes-item
               is-current
+              version="v0.5.5"
+              :new-features="['Minor UI changes']"
+              :miscellaneous="[defaultDependenciesUpdatedMessage]"
+            />
+            <release-notes-item
               version="v0.5.4"
               :new-features="['Added dialog for resetting the App to defaults']"
               :miscellaneous="[defaultDependenciesUpdatedMessage]"
@@ -73,6 +78,11 @@
               ]"
             />
           </v-expansion-panels>
+
+          <div class="mt-3 text-center opacity-50">
+            Made with <span style="color: #ff1744">❤</span> by
+            <a href="https://jan-hafner.de" target="_blank">Jan Hafner</a>
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-btn

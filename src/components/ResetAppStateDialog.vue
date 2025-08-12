@@ -1,8 +1,8 @@
 <template>
   <v-dialog max-width="400">
     <template #default="{ isActive }">
-      <v-card title="Reset App State">
-        <v-card-text>
+      <v-card title="Reset App">
+        <v-card-text class="pb-0">
           <div class="mb-3">This will reset the App to their defaults.</div>
 
           <v-checkbox

@@ -6,10 +6,6 @@
           <v-icon :icon="mdiIdentifier" size="40" />
         </v-avatar>
         ID Buddy
-        <span class="text-disabled font-italic text-caption opacity-50">
-          by
-          <a href="https://jan-hafner.de" target="_blank">Jan Hafner</a>
-        </span>
       </v-app-bar-title>
       <template #append>
         <v-menu>
@@ -28,7 +24,7 @@
               <v-list-item
                 value="2"
                 :prepend-icon="mdiDeleteOutline"
-                title="Reset App State"
+                title="Reset App"
               >
                 <reset-app-state-dialog activator="parent" />
               </v-list-item>
@@ -36,7 +32,7 @@
               <v-list-item
                 value="3"
                 :prepend-icon="mdiInformationOutline"
-                title="About ID Buddy"
+                title="About"
               >
                 <about-dialog activator="parent" />
               </v-list-item>
