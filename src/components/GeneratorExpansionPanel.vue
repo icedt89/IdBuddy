@@ -1,22 +1,17 @@
 <template>
   <v-expansion-panel>
-    <v-expansion-panel-title class="pl-4">
+    <v-expansion-panel-title>
       {{ title }}
     </v-expansion-panel-title>
     <v-container>
       <generator-input
-        v-model:was-copied="wasCopied"
         :can-regenerate="canRegenerate"
         @generated="(v) => addToHistory(v)"
         :value-generator="valueGenerator"
       />
     </v-container>
     <v-expansion-panel-text v-if="hasDetails">
-      <history
-        :items="history.items"
-        v-model:was-copied="wasCopied"
-        density="compact"
-      />
+      <history :items="history.items" />
       <template v-if="$slots['settings']">
         <v-divider class="my-4" />
         <slot name="settings" />
@@ -41,11 +36,6 @@ defineProps<{
   hasDetails: boolean
   canRegenerate: boolean
 }>()
-
-const wasCopied = defineModel<boolean>('wasCopied', {
-  required: true,
-  default: false,
-})
 
 const history = ref<LimitedSizeList<string>>(
   new LimitedSizeList<string>(historySize.value)

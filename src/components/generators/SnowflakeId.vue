@@ -2,7 +2,6 @@
   <v-expansion-panels>
     <generator-expansion-panel
       :title="title"
-      v-model:was-copied="wasCopied"
       :value-generator="
         () => new Snowflake(snowflakeIdMachineIdProxy).generate()
       "
@@ -11,16 +10,15 @@
     >
       <template #settings>
         <v-number-input
-          variant="solo"
-          class="mt-2"
-          type="number"
           :min="machineIdMinValue"
           :max="machineIdMaxValue"
           :step="1"
-          control-variant="stacked"
           v-model="snowflakeIdMachineIdProxy"
           label="Machine ID"
           required
+          :hint="`Must be a positive integer (${machineIdMinValue} -
+              ${machineIdMaxValue})`"
+          persistent-hint
         >
           <template #clear>
             <clear-button
@@ -28,12 +26,6 @@
                 () => (snowflakeIdMachineIdProxy = machineIdMinValue)
               "
             />
-          </template>
-          <template #details>
-            <small class="opacity-50"
-              >Machine ID must be a positive integer ({{ machineIdMinValue }} -
-              {{ machineIdMaxValue }})</small
-            >
           </template>
         </v-number-input>
       </template>
@@ -52,11 +44,6 @@ defineProps<GeneratorProps>()
 
 const machineIdMinValue = 0
 const machineIdMaxValue = 1023
-
-const wasCopied = defineModel<boolean>('wasCopied', {
-  required: true,
-  default: false,
-})
 
 const snowflakeIdMachineId = ref<number | string>(0)
 const snowflakeIdMachineIdProxy = computed({

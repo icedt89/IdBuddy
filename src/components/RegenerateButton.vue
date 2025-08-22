@@ -1,9 +1,8 @@
 <template>
-  <v-tooltip text="Regenerate" open-delay="500">
+  <v-tooltip text="Regenerate">
     <template #activator="{ props }">
-      <v-btn
-        size="small"
-        variant="text"
+      <dense-icon-button
+        :class="class"
         v-bind="props"
         :icon="mdiRefresh"
         @click="$emit('regenerate')"
@@ -14,6 +13,10 @@
 
 <script setup lang="ts">
 import { mdiRefresh } from '@mdi/js'
+
+defineProps<{
+  class?: string
+}>()
 
 defineEmits<{
   (e: 'regenerate'): void

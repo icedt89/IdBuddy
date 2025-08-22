@@ -1,35 +1,27 @@
 <template>
-  <v-tooltip v-if="isSupported" text="Copy to clipboard" open-delay="500">
+  <v-tooltip v-if="isSupported" text="Copy to clipboard">
     <template #activator="{ props }">
-      <v-btn
-        size="small"
-        variant="text"
-        v-bind="props"
-        :icon="mdiContentCopy"
-        @click="copyValue"
-      />
+      <dense-icon-button v-bind="props" :icon="icon" @click="copyValue" />
     </template>
   </v-tooltip>
 </template>
 
 <script setup lang="ts">
 import { useClipboard } from '@vueuse/core'
-import { mdiContentCopy } from '@mdi/js'
+import { mdiContentCopy, mdiCheck } from '@mdi/js'
+import { refAutoReset } from '@vueuse/core'
 
 const props = defineProps<{
   value: string
 }>()
 
-const wasCopied = defineModel<boolean>('wasCopied', {
-  required: true,
-  default: false,
-})
+const icon = refAutoReset(mdiContentCopy, 1500)
 
 const { isSupported, copy } = useClipboard()
 
 function copyValue() {
   copy(props.value)
 
-  wasCopied.value = true
+  icon.value = mdiCheck
 }
 </script>

@@ -2,36 +2,25 @@
   <v-expansion-panels>
     <generator-expansion-panel
       :title="title"
-      v-model:was-copied="wasCopied"
       :value-generator="() => generate()"
       has-details
       can-regenerate
     >
       <template #settings>
         <v-text-field
-          variant="solo"
-          class="mt-2"
           v-model.trim="formatProxy"
           label="Date-fns format"
-          required
+          hint="List of date-fns format identifiers can be found at https://date-fns.org/v4.1.0/docs/format"
+          persistent-hint
         >
           <template #clear>
             <clear-button @click:reset="() => (formatProxy = defaultFormat)" />
           </template>
-          <template #details>
-            <small class="opacity-50">
-              List of date-fns format identifiers can be found at
-              <a href="https://date-fns.org/v4.1.0/docs/format" target="_blank"
-                >https://date-fns.org/v4.1.0/docs/format</a
-              >
-            </small>
-          </template>
         </v-text-field>
         <v-select
-          hide-details
           class="mt-2"
-          variant="solo"
           clearable
+          hide-details
           label="Date-fns locale"
           v-model="selectedLocale"
           :items="selectableLocales"
@@ -55,11 +44,6 @@ import type { Locale } from 'date-fns/locale'
 import type { GeneratorProps } from '@generators/generator-props'
 
 defineProps<GeneratorProps>()
-
-const wasCopied = defineModel<boolean>('wasCopied', {
-  required: true,
-  default: false,
-})
 
 const defaultFormat = 't'
 

@@ -1,11 +1,9 @@
 <template>
-  <v-tooltip :text="tooltipText" open-delay="500">
+  <v-tooltip :text="tooltipText">
     <template #activator="{ props }">
-      <v-btn
-        size="x-small"
-        color="default"
+      <dense-icon-button
+        color="undefined"
         :class="class"
-        variant="text"
         v-bind="props"
         :icon="mdiClose"
         @click="$emit('click:reset')"

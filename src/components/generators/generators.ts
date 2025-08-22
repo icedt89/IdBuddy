@@ -27,7 +27,7 @@ export const generators: { [key: string]: GeneratorMetadata } = {
   nanoId: nanoId,
 }
 
-export const generatorsList = Object.keys(generators).map((m) => generators[m])
+export const generatorsList = Object.keys(generators).map((m) => generators[m]!)
 export const generatorsIdentifiersSet = new Set<string>(
   generatorsList.map((g) => g.identifier)
 )

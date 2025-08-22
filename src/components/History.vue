@@ -1,45 +1,49 @@
 <template>
-  <v-card>
-    <v-card-text class="pt-0" :class="{ 'opacity-50': !items.length }">
-      <div class="d-flex">
-        <div class="me-auto">History</div>
-        <clear-button
-          v-if="items.length"
-          tooltip-text="Clear history"
-          class="mr-1"
-          @click:reset="clearHistory"
-        />
-      </div>
+  <v-card :class="{ 'opacity-50': !items.length }">
+    <v-card-title class="pb-0">
+      <v-row>
+        <v-col
+          cols="auto"
+          align-self="center"
+          class="text-body-1 font-weight-light"
+          >History</v-col
+        >
+        <v-col align="right" align-self="center"
+          ><clear-button
+            class="mb-1"
+            v-if="items.length"
+            tooltip-text="Clear history"
+            @click:reset="clearHistory"
+        /></v-col>
+      </v-row>
+    </v-card-title>
+    <v-card-text :class="{ 'pb-2': !items.length }">
       <small>
-        <template v-if="!isHistoryEnabled">
-          <em>History is disabled</em>
-        </template>
-        <template v-else-if="!items.length">
-          <em>Generate something first</em>
-        </template>
+        <em>
+          <template v-if="!isHistoryEnabled"> History is disabled </template>
+          <template v-else-if="!items.length">
+            Generate something first
+          </template>
+        </em>
       </small>
       <template v-if="!!items.length">
-        <v-text-field
-          readonly
-          hide-details
-          density="compact"
-          variant="plain"
-          :model-value="item"
-          v-for="item in items"
-          :key="item"
-        >
-          <template #append-inner>
-            <copy-button v-model:was-copied="wasCopied" :value="item" />
-          </template>
-        </v-text-field>
+        <v-row v-for="item in items" :key="item" no-gutters>
+          <v-col>
+            <history-item :model-value="item">
+              <template #append-inner>
+                <copy-button :value="item" />
+              </template>
+            </history-item>
+          </v-col>
+        </v-row>
       </template>
     </v-card-text>
   </v-card>
 </template>
 
-<style type="scss" scoped>
-:deep(.v-field__append-inner) {
-  padding-top: 0 !important;
+<style lang="scss" scoped>
+:deep(.v-text-field input) {
+  font-size: 14px;
 }
 </style>
 
@@ -54,11 +58,6 @@ const { isHistoryEnabled } = storeToRefs(useSettingsStore())
 const props = defineProps<{
   items: string[]
 }>()
-
-const wasCopied = defineModel<boolean>('wasCopied', {
-  required: true,
-  default: false,
-})
 
 function clearHistory() {
   props.items.splice(0)

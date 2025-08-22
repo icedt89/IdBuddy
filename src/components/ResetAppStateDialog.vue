@@ -8,18 +8,13 @@
           <v-checkbox
             label="Settings"
             v-model="shouldResetSettingsStore"
-            color="primary"
-            density="compact"
-            hide-details
             disabled
           />
         </v-card-text>
         <v-card-actions>
-          <v-btn
+          <close-dialog-button
             text="Reset"
             :disabled="!shouldResetAny"
-            variant="tonal"
-            rounded="xs"
             @click="resetAppState(isActive)"
           />
         </v-card-actions>

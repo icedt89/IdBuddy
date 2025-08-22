@@ -11,7 +11,6 @@ declare module 'vue' {
     AboutDialog: typeof import('./src/components/AboutDialog.vue')['default']
     ClearButton: typeof import('./src/components/ClearButton.vue')['default']
     CopyButton: typeof import('./src/components/CopyButton.vue')['default']
-    CopySuccessSnackbar: typeof import('./src/components/CopySuccessSnackbar.vue')['default']
     CurrentTimestamp: typeof import('./src/components/generators/CurrentTimestamp.vue')['default']
     GeneratorExpansionPanel: typeof import('./src/components/GeneratorExpansionPanel.vue')['default']
     GeneratorInput: typeof import('./src/components/GeneratorInput.vue')['default']

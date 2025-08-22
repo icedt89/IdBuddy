@@ -1,5 +1,5 @@
 <template>
-  <v-dialog max-width="700">
+  <v-dialog max-width="600">
     <template #default="{ isActive }">
       <v-card title="About ID Buddy">
         <v-card-text class="pb-0">
@@ -8,17 +8,19 @@
             database engines.
           </div>
 
-          <v-expansion-panels v-model="expanded" multiple>
+          <v-expansion-panels v-model="expanded">
             <release-notes-item
               is-current
+              version="v0.6.0"
+              :new-features="['Custom theme (Github like)']"
+            />
+            <release-notes-item
               version="v0.5.5"
               :new-features="['Minor UI changes']"
-              :miscellaneous="[defaultDependenciesUpdatedMessage]"
             />
             <release-notes-item
               version="v0.5.4"
               :new-features="['Added dialog for resetting the App to defaults']"
-              :miscellaneous="[defaultDependenciesUpdatedMessage]"
             />
             <release-notes-item
               version="v0.5.3"
@@ -29,7 +31,6 @@
                 'Added \'UUID Max\'',
                 'Renamed \'UUID Empty\' to \'UUID Nil\'',
               ]"
-              :miscellaneous="[defaultDependenciesUpdatedMessage]"
             />
             <release-notes-item
               version="v0.5.1 - v0.5.2"
@@ -41,12 +42,10 @@
                 'Added locale setting to \'Current timestamp\'-generator',
                 'Improved responsiveness for small devices',
               ]"
-              :miscellaneous="[defaultDependenciesUpdatedMessage]"
             />
             <release-notes-item
               version="v0.4.2"
               :new-features="['Added info section to some generators']"
-              :miscellaneous="[defaultDependenciesUpdatedMessage]"
             />
             <release-notes-item
               version="v0.4.0"
@@ -55,7 +54,6 @@
                 'Added \'Snowflake ID\'-generator',
                 'Added \'Current timestamp\'-generator',
               ]"
-              :miscellaneous="[defaultDependenciesUpdatedMessage]"
             />
             <release-notes-item
               version="v0.2.0"
@@ -63,7 +61,6 @@
                 'Added \'ULID\'-generator',
                 'Added \'XID\'-generator',
               ]"
-              :miscellaneous="[defaultDependenciesUpdatedMessage]"
             />
             <release-notes-item
               version="v0.1.0"
@@ -72,27 +69,17 @@
                 'Added \'UUID v4\'-generator',
                 'Added \'UUID v7\'-generator',
               ]"
-              :miscellaneous="[
-                defaultDependenciesUpdatedMessage,
-                'Initial release',
-              ]"
+              :miscellaneous="['Initial release']"
             />
           </v-expansion-panels>
 
           <div class="mt-3 text-center opacity-50">
-            Made with <span style="color: #ff1744">❤</span> by
+            Made with <span class="heart-red">❤</span> by
             <a href="https://jan-hafner.de" target="_blank">Jan Hafner</a>
           </div>
         </v-card-text>
         <v-card-actions>
-          <v-btn
-            class="ml-auto"
-            text="Close"
-            variant="tonal"
-            rounded="xs"
-            color="info"
-            @click="isActive.value = false"
-          />
+          <close-dialog-button @click="isActive.value = false" />
         </v-card-actions>
       </v-card>
     </template>

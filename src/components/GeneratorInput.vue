@@ -1,14 +1,10 @@
 <template>
-  <v-text-field
-    variant="solo-filled"
-    readonly
-    :model-value="currentValue"
-    hide-details
-  >
+  <v-text-field readonly :model-value="currentValue" hide-details>
     <template #append-inner>
-      <copy-button :value="currentValue" v-model:was-copied="wasCopied" />
+      <copy-button :value="currentValue" />
       <regenerate-button
         v-if="canRegenerate"
+        class="ml-1"
         @click="regenerateValue"
         @regenerate="regenerateValue"
       />
@@ -26,11 +22,6 @@ const props = defineProps<{
   valueGenerator: () => string | Promise<string>
   canRegenerate: boolean
 }>()
-
-const wasCopied = defineModel<boolean>('wasCopied', {
-  required: true,
-  default: false,
-})
 
 const emits = defineEmits<{
   (e: 'generated', oldValue: string, newValue: string): void

@@ -1,8 +1,8 @@
 // Plugins
-import Components from 'unplugin-vue-components/vite'
-import Vue from '@vitejs/plugin-vue'
+import components from 'unplugin-vue-components/vite'
+import vue from '@vitejs/plugin-vue'
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
-import ViteFonts from 'unplugin-fonts/vite'
+import viteFonts from 'unplugin-fonts/vite'
 
 // Utilities
 import { defineConfig } from 'vite'
@@ -16,35 +16,43 @@ export const alias = {
 }
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    Vue({
-      template: { transformAssetUrls },
-    }),
-    vuetify({
-      autoImport: true,
-      styles: {
-        configFile: 'src/styles/app.scss',
-      },
-    }),
-    Components(),
-    ViteFonts({
-      google: {
-        families: [
-          {
-            name: 'Roboto',
-            styles: 'wght@100;300;400;500;700;900',
-          },
-        ],
-      },
-    }),
-  ],
-  define: { 'process.env': {} },
-  resolve: {
-    alias,
-    extensions: ['.ts', '.vue'],
-  },
-  server: {
-    port: 3001,
-  },
+export default defineConfig(({ mode }) => {
+  const isProduction = mode === 'production'
+
+  return {
+    plugins: [
+      vue({
+        template: { transformAssetUrls },
+      }),
+      vuetify({
+        autoImport: true,
+        styles: {
+          configFile: 'src/styles/app.scss',
+        },
+      }),
+      components(),
+      viteFonts({
+        google: {
+          families: [
+            {
+              name: 'Roboto',
+              styles: 'wght@100;300;400;500;700;900',
+            },
+          ],
+          preconnect: true,
+        },
+      }),
+    ],
+    resolve: {
+      alias,
+      extensions: ['.ts', '.vue'],
+    },
+    server: {
+      port: 3001,
+    },
+    esbuild: {
+      drop: isProduction ? ['console', 'debugger'] : undefined,
+      legalComments: 'none',
+    },
+  }
 })

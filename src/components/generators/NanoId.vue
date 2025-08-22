@@ -2,30 +2,22 @@
   <v-expansion-panels>
     <generator-expansion-panel
       :title="title"
-      v-model:was-copied="wasCopied"
       :value-generator="() => nanoid(nanoIdSizeProxy)"
       has-details
       can-regenerate
     >
       <template #settings>
         <v-number-input
-          variant="solo"
-          class="mt-2"
-          type="number"
           :min="nanoIdMinValue"
           :max="nanoIdMaxValue"
-          control-variant="stacked"
           v-model="nanoIdSizeProxy"
           label="Length"
+          :hint="`Must be a positive integer (1 -
+              ${nanoIdMaxValue})`"
+          persistent-hint
         >
           <template #clear>
             <clear-button @click:reset="() => (nanoIdSizeProxy = undefined)" />
-          </template>
-          <template #details>
-            <small class="opacity-50"
-              >Length must be a positive integer (1 -
-              {{ nanoIdMaxValue }})</small
-            >
           </template>
         </v-number-input>
       </template>
@@ -44,11 +36,6 @@ defineProps<GeneratorProps>()
 
 const nanoIdMinValue = 1
 const nanoIdMaxValue = 65536
-
-const wasCopied = defineModel<boolean>('wasCopied', {
-  required: true,
-  default: false,
-})
 
 const nanoIdSize = ref<number | string>('')
 const nanoIdSizeProxy = computed({

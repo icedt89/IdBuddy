@@ -2,9 +2,9 @@
   <v-app>
     <v-app-bar>
       <v-app-bar-title>
-        <v-avatar variant="text" border size="44" class="mr-2">
+        <app-icon-avatar>
           <v-icon :icon="mdiIdentifier" size="40" />
-        </v-avatar>
+        </app-icon-avatar>
         ID Buddy
       </v-app-bar-title>
       <template #append>
@@ -14,36 +14,30 @@
           </template>
 
           <template #default>
-            <v-list>
-              <!-- Setting just "value" will enable clickability on the list item -->
-              <!-- value must get a distinct value to get rid of vuetify warnings -->
-              <v-list-item value="1" :prepend-icon="mdiCog" title="Settings">
+            <app-main-menu>
+              <v-list-item :prepend-icon="mdiCog" title="Settings">
                 <settings-dialog activator="parent" />
               </v-list-item>
               <v-divider />
-              <v-list-item
-                value="2"
-                :prepend-icon="mdiDeleteOutline"
-                title="Reset App"
-              >
+              <v-list-item title="Reset App">
                 <reset-app-state-dialog activator="parent" />
+
+                <template #prepend>
+                  <div style="width: 44px"></div>
+                </template>
               </v-list-item>
               <v-divider />
-              <v-list-item
-                value="3"
-                :prepend-icon="mdiInformationOutline"
-                title="About"
-              >
+              <v-list-item :prepend-icon="mdiInformationOutline" title="About">
                 <about-dialog activator="parent" />
               </v-list-item>
-            </v-list>
+            </app-main-menu>
           </template>
         </v-menu>
       </template>
     </v-app-bar>
 
     <v-main>
-      <v-container class="ma-0" fluid>
+      <v-container>
         <v-alert
           v-if="areAllGeneratorsHidden"
           border="start"
@@ -64,12 +58,12 @@
           <template v-for="generator in generatorsList">
             <v-col
               cols="12"
+              sm="6"
               md="4"
               v-if="isGeneratorVisible(generator.identifier)"
             >
               <Component
                 :is="generator.component"
-                v-model:was-copied="wasCopied"
                 :title="generator.displayName"
               />
             </v-col>
@@ -78,7 +72,6 @@
       </v-container>
     </v-main>
   </v-app>
-  <copy-success-snackbar v-model:show="wasCopied" />
 </template>
 
 <script setup lang="ts">
@@ -87,10 +80,8 @@ import {
   mdiDotsVertical,
   mdiInformationOutline,
   mdiCog,
-  mdiDeleteOutline,
 } from '@mdi/js'
 import { ref } from 'vue'
-import CopySuccessSnackbar from '@/components/CopySuccessSnackbar.vue'
 import AboutDialog from '@/components/AboutDialog.vue'
 import SettingsDialog from '@/components/SettingsDialog.vue'
 import { useSettingsStore } from '@/stores/settings-store'
@@ -101,6 +92,4 @@ import ResetAppStateDialog from '@/components/ResetAppStateDialog.vue'
 const settingsStore = useSettingsStore()
 const { areAllGeneratorsHidden } = storeToRefs(settingsStore)
 const { isGeneratorVisible, unhideAllGenerators } = settingsStore
-
-const wasCopied = ref(false)
 </script>
