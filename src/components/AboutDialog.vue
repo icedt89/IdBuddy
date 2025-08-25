@@ -11,6 +11,15 @@
           <v-expansion-panels v-model="expanded">
             <release-notes-item
               is-current
+              version="v0.6.1"
+              :new-features="[
+                'Current timestamp: added human readable display names for locales',
+              ]"
+              :bugfixes="[
+                'Current timestamp: some date-fns format identifiers broke generation',
+              ]"
+            />
+            <release-notes-item
               version="v0.6.0"
               :new-features="['Custom theme (Github like)']"
             />

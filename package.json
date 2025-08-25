@@ -1,7 +1,7 @@
 {
   "name": "id-buddy",
   "author": "Jan Hafner",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "type": "module",
   "private": true,
   "scripts": {
@@ -21,7 +21,7 @@
     "pinia-plugin-persistedstate": "^4.5.0",
     "ulidx": "^2.4.1",
     "uuid": "^11.1.0",
-    "vue": "^3.5.19",
+    "vue": "^3.5.20",
     "vuetify": "^3.9.5",
     "xid-ts": "^1.1.4"
   },
