@@ -1,5 +1,5 @@
 import type { Component } from 'vue'
-import { currentTimestamp } from '@generators/current-timestamp'
+import { timestamp } from '@generators/timestamp'
 import { nanoId } from '@generators/nano-id'
 import { snowflakeId } from '@generators/snowflake-id'
 import { uuidMax } from '@generators/uuid-max'
@@ -8,6 +8,8 @@ import { uuidv4 } from '@generators/uuid-v4'
 import { uuidv7 } from '@generators/uuid-v7'
 import { xid } from '@generators/xid'
 import { ulid } from '@generators/ulid'
+import { cuid2 } from '@generators/cuid2'
+import { mongoObjectId } from '@generators/mongo-objectid'
 
 export interface GeneratorMetadata {
   identifier: string
@@ -16,15 +18,17 @@ export interface GeneratorMetadata {
 }
 
 export const generators: { [key: string]: GeneratorMetadata } = {
-  uuidNil: uuidNil,
-  uuidv4: uuidv4,
-  currentTimestamp: currentTimestamp,
-  uuidMax: uuidMax,
-  uuidv7: uuidv7,
-  ulid: ulid,
-  xid: xid,
-  snowflakeId: snowflakeId,
-  nanoId: nanoId,
+  uuidNil,
+  uuidv4,
+  currentTimestamp: timestamp,
+  uuidMax,
+  uuidv7,
+  ulid,
+  xid,
+  snowflakeId,
+  nanoId,
+  cuid2,
+  mongoObjectId,
 }
 
 export const generatorsList = Object.keys(generators).map((m) => generators[m]!)

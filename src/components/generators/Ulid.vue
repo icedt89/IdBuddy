@@ -2,24 +2,23 @@
   <v-expansion-panels>
     <generator-expansion-panel
       :title="title"
-      :value-generator="() => ulid(ulidSeedTimeProxy)"
+      :value-generator="() => ulid(seedTimeProxy)"
       has-details
       can-regenerate
     >
       <template #settings>
         <v-number-input
           :step="1"
-          :min="ulidMinValue"
-          :max="ulidMaxValue"
+          :min="seedTimeMinValue"
+          :max="seedTimeMaxValue"
           label="Seed Time"
-          :hint="`Must be a positive integer (${ulidMinValue} -
-              ${ulidMaxValue})`"
+          v-model="seedTimeProxy"
+          :hint="`Must be a positive integer (${seedTimeMinValue} -
+              ${seedTimeMaxValue})`"
           persistent-hint
         >
           <template #clear>
-            <clear-button
-              @click:reset="() => (ulidSeedTimeProxy = undefined)"
-            />
+            <clear-button @click:reset="() => (seedTimeProxy = undefined)" />
           </template>
         </v-number-input>
       </template>
@@ -36,17 +35,17 @@ import type { GeneratorProps } from '@generators/generator-props'
 
 defineProps<GeneratorProps>()
 
-const ulidMinValue = 0
-const ulidMaxValue = 281474976710655
+const seedTimeMinValue = 0
+const seedTimeMaxValue = 2048
 
-const ulidSeedTime = ref<number | string>('')
-const ulidSeedTimeProxy = computed({
+const seedTime = ref<number | string>('')
+const seedTimeProxy = computed({
   get() {
-    if (ulidSeedTime.value === '') {
+    if (seedTime.value === '') {
       return undefined
     }
 
-    return +ulidSeedTime.value
+    return +seedTime.value
   },
   set(newValue: number | string) {
     if (newValue === null || newValue === undefined) {
@@ -55,18 +54,18 @@ const ulidSeedTimeProxy = computed({
 
     if (newValue !== '') {
       let asNumber = +newValue
-      if (asNumber < ulidMinValue) {
-        asNumber = ulidMinValue
-      } else if (asNumber > ulidMaxValue) {
-        asNumber = ulidMaxValue
+      if (asNumber < seedTimeMinValue) {
+        asNumber = seedTimeMinValue
+      } else if (asNumber > seedTimeMaxValue) {
+        asNumber = seedTimeMaxValue
       }
 
-      ulidSeedTime.value = Math.trunc(asNumber)
+      seedTime.value = Math.trunc(asNumber)
 
       return
     }
 
-    ulidSeedTime.value = newValue
+    seedTime.value = newValue
   },
 })
 </script>

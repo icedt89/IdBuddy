@@ -2,9 +2,7 @@
   <v-expansion-panels>
     <generator-expansion-panel
       :title="title"
-      :value-generator="
-        () => new Snowflake(snowflakeIdMachineIdProxy).generate()
-      "
+      :value-generator="() => new Snowflake(machineIdProxy).generate()"
       has-details
       can-regenerate
     >
@@ -13,7 +11,7 @@
           :min="machineIdMinValue"
           :max="machineIdMaxValue"
           :step="1"
-          v-model="snowflakeIdMachineIdProxy"
+          v-model="machineIdProxy"
           label="Machine ID"
           required
           :hint="`Must be a positive integer (${machineIdMinValue} -
@@ -22,9 +20,7 @@
         >
           <template #clear>
             <clear-button
-              @click:reset="
-                () => (snowflakeIdMachineIdProxy = machineIdMinValue)
-              "
+              @click:reset="() => (machineIdProxy = machineIdMinValue)"
             />
           </template>
         </v-number-input>
@@ -45,14 +41,14 @@ defineProps<GeneratorProps>()
 const machineIdMinValue = 0
 const machineIdMaxValue = 1023
 
-const snowflakeIdMachineId = ref<number | string>(0)
-const snowflakeIdMachineIdProxy = computed({
+const machineId = ref<number | string>(0)
+const machineIdProxy = computed({
   get() {
-    if (snowflakeIdMachineId.value === '') {
+    if (machineId.value === '') {
       return machineIdMinValue
     }
 
-    return +snowflakeIdMachineId.value
+    return +machineId.value
   },
   set(newValue: number | string) {
     if (newValue !== '') {
@@ -63,12 +59,12 @@ const snowflakeIdMachineIdProxy = computed({
         asNumber = machineIdMaxValue
       }
 
-      snowflakeIdMachineId.value = Math.trunc(asNumber)
+      machineId.value = Math.trunc(asNumber)
 
       return
     }
 
-    snowflakeIdMachineId.value = machineIdMinValue
+    machineId.value = machineIdMinValue
   },
 })
 </script>

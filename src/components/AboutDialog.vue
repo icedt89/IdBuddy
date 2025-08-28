@@ -11,6 +11,10 @@
           <v-expansion-panels v-model="expanded">
             <release-notes-item
               is-current
+              version="v0.6.5"
+              :new-features="['Added \'Cuid2\'', 'Added \'Mongo ObjectID\'']"
+            />
+            <release-notes-item
               version="v0.6.1"
               :new-features="[
                 'Current timestamp: added human readable display names for locales',

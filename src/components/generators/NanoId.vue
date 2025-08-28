@@ -2,22 +2,22 @@
   <v-expansion-panels>
     <generator-expansion-panel
       :title="title"
-      :value-generator="() => nanoid(nanoIdSizeProxy)"
+      :value-generator="() => nanoid(sizeProxy)"
       has-details
       can-regenerate
     >
       <template #settings>
         <v-number-input
-          :min="nanoIdMinValue"
-          :max="nanoIdMaxValue"
-          v-model="nanoIdSizeProxy"
-          label="Length"
+          :min="sizeMinValue"
+          :max="sizeMaxValue"
+          v-model="sizeProxy"
+          label="Size"
           :hint="`Must be a positive integer (1 -
-              ${nanoIdMaxValue})`"
+              ${sizeMaxValue})`"
           persistent-hint
         >
           <template #clear>
-            <clear-button @click:reset="() => (nanoIdSizeProxy = undefined)" />
+            <clear-button @click:reset="() => (sizeProxy = undefined)" />
           </template>
         </v-number-input>
       </template>
@@ -34,17 +34,17 @@ import type { GeneratorProps } from '@generators/generator-props'
 
 defineProps<GeneratorProps>()
 
-const nanoIdMinValue = 1
-const nanoIdMaxValue = 65536
+const sizeMinValue = 1
+const sizeMaxValue = 65536
 
-const nanoIdSize = ref<number | string>('')
-const nanoIdSizeProxy = computed({
+const size = ref<number | string>('')
+const sizeProxy = computed({
   get() {
-    if (nanoIdSize.value === '') {
+    if (size.value === '') {
       return undefined
     }
 
-    return +nanoIdSize.value
+    return +size.value
   },
   set(newValue: number | string) {
     if (newValue === null || newValue === undefined) {
@@ -53,18 +53,18 @@ const nanoIdSizeProxy = computed({
 
     if (newValue !== '') {
       let asNumber = +newValue
-      if (asNumber < nanoIdMinValue) {
-        asNumber = nanoIdMinValue
-      } else if (asNumber > nanoIdMaxValue) {
-        asNumber = nanoIdMaxValue
+      if (asNumber < sizeMinValue) {
+        asNumber = sizeMinValue
+      } else if (asNumber > sizeMaxValue) {
+        asNumber = sizeMaxValue
       }
 
-      nanoIdSize.value = Math.trunc(asNumber)
+      size.value = Math.trunc(asNumber)
 
       return
     }
 
-    nanoIdSize.value = newValue
+    size.value = newValue
   },
 })
 </script>
