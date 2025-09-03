@@ -11,6 +11,10 @@
           <v-expansion-panels v-model="expanded">
             <release-notes-item
               is-current
+              version="v0.6.6"
+              :bugfixes="['Removed external loading of Google Roboto font']"
+            />
+            <release-notes-item
               version="v0.6.5"
               :new-features="['Added \'Cuid2\'', 'Added \'Mongo ObjectID\'']"
             />

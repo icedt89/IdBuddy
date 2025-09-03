@@ -32,14 +32,15 @@ export default defineConfig(({ mode }) => {
       }),
       components(),
       viteFonts({
-        google: {
+        fontsource: {
           families: [
             {
               name: 'Roboto',
-              styles: 'wght@100;300;400;500;700;900',
+              weights: [100, 300, 400, 500, 700, 900],
+              styles: ['normal', 'italic'],
+              subset: 'latin',
             },
           ],
-          preconnect: true,
         },
       }),
     ],
