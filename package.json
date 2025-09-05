@@ -1,7 +1,7 @@
 {
   "name": "id-buddy",
   "author": "Jan Hafner",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "type": "module",
   "private": true,
   "scripts": {
@@ -10,7 +10,8 @@
     "test:run": "vitest run",
     "test:watch": "vitest watch",
     "format": "prettier --write .",
-    "all": "npm run test:run && npm run format && npm run build"
+    "generate-pwa-assets": "pwa-assets-generator",
+    "all": "npm run test:run && npm run format && npm run generate-pwa-assets && npm run build"
   },
   "dependencies": {
     "@fontsource/roboto": "^5.2.6",
@@ -25,13 +26,14 @@
     "ulidx": "^2.4.1",
     "uuid": "^11.1.0",
     "vue": "^3.5.21",
-    "vuetify": "^3.9.6",
+    "vuetify": "^3.9.7",
     "xid-ts": "^1.1.4"
   },
   "devDependencies": {
     "@mdi/js": "^7.4.47",
     "@tsconfig/node22": "^22.0.2",
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.3.1",
+    "@vite-pwa/assets-generator": "^1.0.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
     "prettier": "^3.6.2",

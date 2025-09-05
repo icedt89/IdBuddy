@@ -81,7 +81,6 @@ import {
   mdiInformationOutline,
   mdiCog,
 } from '@mdi/js'
-import { ref } from 'vue'
 import AboutDialog from '@/components/AboutDialog.vue'
 import SettingsDialog from '@/components/SettingsDialog.vue'
 import { useSettingsStore } from '@/stores/settings-store'

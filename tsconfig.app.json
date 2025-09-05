@@ -1,6 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "virtual-components.d.ts"],
+  "include": ["virtual-components.d.ts", "src/**/*"],
   "exclude": [
     "node_modules",
     "dist",
@@ -29,7 +29,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
-    "types": ["vuetify", "vite/client", "unplugin-fonts/client"],
+    "types": ["vite/client", "unplugin-fonts/client"],
     "paths": {
       "@/*": ["src/*"],
       "@generators/*": ["src/components/generators/*"]

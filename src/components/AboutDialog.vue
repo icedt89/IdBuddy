@@ -11,6 +11,10 @@
           <v-expansion-panels v-model="expanded">
             <release-notes-item
               is-current
+              version="v0.6.7"
+              :bugfixes="['Made App icon transparent']"
+            />
+            <release-notes-item
               version="v0.6.6"
               :bugfixes="['Removed external loading of Google Roboto font']"
             />
