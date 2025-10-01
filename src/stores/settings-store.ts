@@ -2,8 +2,10 @@ import { generatorsIdentifiersSet } from '@generators/generators'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-export const defaultHistorySize = 10
+export const defaultHistorySize = 5
 export const historySizeMinValue = 0
+
+export const autoRegenerateIntervalInSecondsMinValue = 0
 
 export const useSettingsStore = defineStore(
   'settings',
@@ -14,6 +16,13 @@ export const useSettingsStore = defineStore(
     const hiddenGenerators = ref<string[]>([])
     const hiddenGeneratorsSet = computed(
       () => new Set<string>(hiddenGenerators.value)
+    )
+
+    const autoRegenerateIntervalInSeconds = ref(
+      autoRegenerateIntervalInSecondsMinValue
+    )
+    const isAutoRegenerateEnabled = computed(
+      () => autoRegenerateIntervalInSeconds.value > 0
     )
 
     const areAllGeneratorsHidden = computed(() =>
@@ -73,6 +82,8 @@ export const useSettingsStore = defineStore(
       hiddenGenerators,
       hiddenGeneratorsSet,
       areAllGeneratorsHidden,
+      autoRegenerateIntervalInSeconds,
+      isAutoRegenerateEnabled,
       reset,
       isGeneratorVisible,
       setGeneratorVisibility,

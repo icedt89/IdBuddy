@@ -8,13 +8,15 @@
     >
       <template #settings>
         <v-text-field
-          v-model.trim="formatProxy"
+          v-model.trim="format"
           label="Date-fns format"
+          persistent-placeholder
+          :placeholder="useIso8601 ? 'ISO 8601' : undefined"
           hint="List of date-fns format identifiers can be found at https://date-fns.org/v4.1.0/docs/format"
           persistent-hint
         >
           <template #clear>
-            <clear-button @click:reset="() => (formatProxy = defaultFormat)" />
+            <clear-button @click:reset="() => (format = defaultFormat)" />
           </template>
         </v-text-field>
         <v-select
@@ -37,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { formatDate, type FormatOptions } from 'date-fns'
+import { formatDate, formatISO, type FormatOptions } from 'date-fns'
 import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
 import { computed, ref } from 'vue'
 import ClearButton from '@/components/ClearButton.vue'
@@ -51,25 +53,11 @@ interface LocaleWithDisplayName extends Locale {
 
 defineProps<GeneratorProps>()
 
-const defaultFormat = 't'
+const defaultFormat = ''
 
 const format = ref<string>(defaultFormat)
-const formatProxy = computed({
-  get() {
-    if (format.value === '') {
-      return defaultFormat
-    }
 
-    return format.value
-  },
-  set(newValue: string) {
-    if (!newValue) {
-      newValue = defaultFormat
-    }
-
-    format.value = newValue
-  },
-})
+const useIso8601 = computed(() => format.value === '')
 
 // Generated via ChatGPT
 const localeNames = new Map<string, string>([
@@ -173,6 +161,7 @@ const locales = Object.entries(dateFnsLocales).map(([_, locale]) => {
   let displayName = localeNames.get(locale.code)
   if (!displayName) {
     displayName = locale.code
+    console.warn(`'${locale.code}' does not have a valid display name`)
   } else {
     displayName = `${displayName} [${locale.code}]`
   }
@@ -193,6 +182,10 @@ function generate(): string {
   }
   if (selectedLocale.value) {
     formatOptions.locale = localesMap.get(selectedLocale.value)
+  }
+
+  if (useIso8601.value) {
+    return formatISO(new Date(), formatOptions)
   }
 
   return formatDate(new Date(), format.value, formatOptions)

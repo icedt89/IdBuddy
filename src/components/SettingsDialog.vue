@@ -3,15 +3,28 @@
     <template #default="{ isActive }">
       <v-card title="Settings">
         <v-card-text class="pb-0">
-          <v-number-input
-            v-model="historySizeProxy"
-            required
-            label="History size"
-            :min="historySizeMinValue"
-            hint="Size of the history before items get overwritten"
-            :messages="historySizeMessage"
-          />
-
+          <v-row class="mb-1">
+            <v-col>
+              <v-number-input
+                v-model="historySizeProxy"
+                required
+                label="History size"
+                :min="historySizeMinValue"
+                hint="Size of the history before items get overwritten"
+                :messages="historySizeMessage"
+              />
+            </v-col>
+            <v-col>
+              <v-number-input
+                v-model="autoRegenerateIntervalInSecondsProxy"
+                required
+                label="Auto regenerate interval"
+                :min="autoRegenerateIntervalInSecondsMinValue"
+                hint="Interval in seconds after which all enabled generators generate a new value"
+                :messages="autoRegenerateMessage"
+              />
+            </v-col>
+          </v-row>
           <v-card>
             <v-card-title class="pb-0 text-body-1 font-weight-light">
               Generators
@@ -46,17 +59,30 @@
 </template>
 
 <script setup lang="ts">
-import { historySizeMinValue, useSettingsStore } from '@/stores/settings-store'
+import {
+  historySizeMinValue,
+  autoRegenerateIntervalInSecondsMinValue,
+  useSettingsStore,
+} from '@/stores/settings-store'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { generatorsList } from '@generators/generators'
 
 const settingsStore = useSettingsStore()
-const { historySize, isHistoryEnabled } = storeToRefs(settingsStore)
+const {
+  historySize,
+  isHistoryEnabled,
+  autoRegenerateIntervalInSeconds,
+  isAutoRegenerateEnabled,
+} = storeToRefs(settingsStore)
 const { isGeneratorVisible, setGeneratorVisibility } = settingsStore
 
 const historySizeMessage = computed(() =>
   !isHistoryEnabled.value ? 'History is disabled' : undefined
+)
+
+const autoRegenerateMessage = computed(() =>
+  isAutoRegenerateEnabled.value ? 'Auto regenerate is enabled' : undefined
 )
 
 const historySizeProxy = computed({
@@ -76,6 +102,27 @@ const historySizeProxy = computed({
     }
 
     historySize.value = historySizeMinValue
+  },
+})
+
+const autoRegenerateIntervalInSecondsProxy = computed({
+  get() {
+    return autoRegenerateIntervalInSeconds.value
+  },
+  set(newValue: number | string) {
+    if (newValue !== '') {
+      let asNumber = +newValue
+      if (asNumber < autoRegenerateIntervalInSecondsMinValue) {
+        asNumber = autoRegenerateIntervalInSecondsMinValue
+      }
+
+      autoRegenerateIntervalInSeconds.value = Math.trunc(asNumber)
+
+      return
+    }
+
+    autoRegenerateIntervalInSeconds.value =
+      autoRegenerateIntervalInSecondsMinValue
   },
 })
 </script>

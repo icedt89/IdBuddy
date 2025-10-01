@@ -11,12 +11,19 @@
           <v-expansion-panels v-model="expanded">
             <release-notes-item
               is-current
+              version="v0.7.0"
+              :new-features="[
+                'Timestamp: Added possibility to use ISO 8601 by leaving the format empty',
+                'Added possibility to auto regenerate at configurable second intervals',
+              ]"
+            />
+            <release-notes-item
               version="v0.6.7"
-              :bugfixes="['Made App icon transparent']"
+              :new-features="['Made App icon transparent']"
             />
             <release-notes-item
               version="v0.6.6"
-              :bugfixes="['Removed external loading of Google Roboto font']"
+              :new-features="['Removed external loading of Google Roboto font']"
             />
             <release-notes-item
               version="v0.6.5"
@@ -25,10 +32,10 @@
             <release-notes-item
               version="v0.6.1"
               :new-features="[
-                'Current timestamp: added human readable display names for locales',
+                'Timestamp: added human readable display names for locales',
               ]"
               :bugfixes="[
-                'Current timestamp: some date-fns format identifiers broke generation',
+                'Timestamp: some date-fns format identifiers broke generation',
               ]"
             />
             <release-notes-item
@@ -60,7 +67,7 @@
             <release-notes-item
               version="v0.5.0"
               :new-features="[
-                'Added locale setting to \'Current timestamp\'-generator',
+                'Timestamp: added locale setting',
                 'Improved responsiveness for small devices',
               ]"
             />
@@ -73,7 +80,7 @@
               :new-features="[
                 'Added \'Nano ID\'-generator',
                 'Added \'Snowflake ID\'-generator',
-                'Added \'Current timestamp\'-generator',
+                'Added \'Timestamp\'-generator',
               ]"
             />
             <release-notes-item
