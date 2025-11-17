@@ -3,6 +3,7 @@ import components from 'unplugin-vue-components/vite'
 import vue from '@vitejs/plugin-vue'
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 import viteFonts from 'unplugin-fonts/vite'
+import { version } from './package.json'
 
 // Utilities
 import { defineConfig } from 'vite'
@@ -44,6 +45,9 @@ export default defineConfig(({ mode }) => {
         },
       }),
     ],
+    define: {
+      __APP_VERSION__: JSON.stringify(version),
+    },
     resolve: {
       alias,
       extensions: ['.ts', '.vue'],

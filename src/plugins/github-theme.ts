@@ -3,6 +3,6 @@ export const github = {
   colors: {
     background: '#212830',
     surface: '#141b22',
-    primary: '#9c4397',
+    primary: '#DE3163',
   },
 }

@@ -23,6 +23,7 @@
                 <reset-app-state-dialog activator="parent" />
 
                 <template #prepend>
+                  <!-- Reserve space for item without icon -->
                   <div style="width: 44px"></div>
                 </template>
               </v-list-item>

@@ -61,10 +61,6 @@
               ]"
             />
             <release-notes-item
-              version="v0.5.1 - v0.5.2"
-              :miscellaneous="[defaultDependenciesUpdatedMessage]"
-            />
-            <release-notes-item
               version="v0.5.0"
               :new-features="[
                 'Timestamp: added locale setting',
@@ -104,6 +100,7 @@
           <div class="mt-3 text-center opacity-50">
             Made with <span class="heart-red">❤</span> by
             <a href="https://jan-hafner.de" target="_blank">Jan Hafner</a>
+            <small class="d-block opacity-20">v{{ appVersion }}</small>
           </div>
         </v-card-text>
         <v-card-actions>
@@ -117,8 +114,7 @@
 <script setup lang="ts">
 import ReleaseNotesItem from '@/components/ReleaseNotesItem.vue'
 import { ref } from 'vue'
-
-const defaultDependenciesUpdatedMessage = 'Updated dependencies'
+import { appVersion } from '../environment'
 
 const expanded = ref<number | null>(0)
 </script>
