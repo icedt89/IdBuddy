@@ -1,15 +1,24 @@
 import { generatorsIdentifiersSet } from '@generators/generators'
+import { watchImmediate } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import { useTheme } from 'vuetify'
 
 export const defaultHistorySize = 5
 export const historySizeMinValue = 0
 
 export const autoRegenerateIntervalInSecondsMinValue = 0
 
+export type KnownTheme = 'light' | 'softDark'
+
 export const useSettingsStore = defineStore(
   'settings',
   () => {
+    const { change: changeTheme } = useTheme()
+
+    const currentTheme = ref<KnownTheme>('softDark')
+    watchImmediate(currentTheme, changeTheme)
+
     const historySize = ref(defaultHistorySize)
     const isHistoryEnabled = computed(() => !!historySize.value)
 
@@ -58,6 +67,7 @@ export const useSettingsStore = defineStore(
 
     function reset() {
       historySize.value = defaultHistorySize
+      currentTheme.value = 'softDark'
 
       unhideAllGenerators()
     }
@@ -84,6 +94,7 @@ export const useSettingsStore = defineStore(
       areAllGeneratorsHidden,
       autoRegenerateIntervalInSeconds,
       isAutoRegenerateEnabled,
+      currentTheme,
       reset,
       isGeneratorVisible,
       setGeneratorVisibility,

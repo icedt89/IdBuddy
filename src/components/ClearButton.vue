@@ -2,7 +2,7 @@
   <v-tooltip :text="tooltipText">
     <template #activator="{ props }">
       <dense-icon-button
-        color="undefined"
+        color="on-background"
         :class="class"
         v-bind="props"
         :icon="mdiClose"

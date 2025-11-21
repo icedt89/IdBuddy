@@ -18,6 +18,7 @@
               <v-list-item :prepend-icon="mdiCog" title="Settings">
                 <settings-dialog activator="parent" />
               </v-list-item>
+              <switch-theme-list-item />
               <v-divider />
               <v-list-item title="Reset App">
                 <reset-app-state-dialog activator="parent" />
@@ -88,6 +89,7 @@ import { useSettingsStore } from '@/stores/settings-store'
 import { generatorsList } from '@generators/generators'
 import { storeToRefs } from 'pinia'
 import ResetAppStateDialog from '@/components/ResetAppStateDialog.vue'
+import SwitchThemeListItem from '@/components/SwitchThemeListItem.vue'
 
 const settingsStore = useSettingsStore()
 const { areAllGeneratorsHidden } = storeToRefs(settingsStore)

@@ -25,6 +25,7 @@ declare module 'vue' {
     ResetAppStateDialog: typeof import('./src/components/ResetAppStateDialog.vue')['default']
     SettingsDialog: typeof import('./src/components/SettingsDialog.vue')['default']
     SnowflakeId: typeof import('./src/components/generators/SnowflakeId.vue')['default']
+    SwitchThemeListItem: typeof import('./src/components/SwitchThemeListItem.vue')['default']
     Timestamp: typeof import('./src/components/generators/Timestamp.vue')['default']
     Ulid: typeof import('./src/components/generators/Ulid.vue')['default']
     UuidMax: typeof import('./src/components/generators/UuidMax.vue')['default']

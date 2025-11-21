@@ -12,15 +12,17 @@ import 'vuetify/styles'
 // Composables
 import { createVuetify } from 'vuetify'
 import { en } from 'vuetify/locale'
-import { github } from './github-theme'
+import { softDark } from './soft-dark-theme'
+import { light } from './light-theme'
 import { VBtn, VAvatar, VList, VTextField } from 'vuetify/components'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
   theme: {
-    defaultTheme: 'github',
+    defaultTheme: 'softDark',
     themes: {
-      github,
+      softDark,
+      light,
     },
   },
   blueprint: md3,
@@ -45,7 +47,7 @@ export default createVuetify({
   defaults: {
     CloseDialogButton: {
       text: 'Close',
-      color: 'undefined',
+      color: 'on-background',
       variant: 'text',
     },
     AppIconAvatar: {

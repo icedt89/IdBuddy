@@ -3,7 +3,7 @@
     <template #default="{ isActive }">
       <v-card title="About ID Buddy">
         <v-card-text class="pb-0">
-          <div class="mb-3">
+          <div class="mb-4">
             ID Buddy lets you generate various identifiers primarily used by
             database engines.
           </div>
@@ -11,6 +11,10 @@
           <v-expansion-panels v-model="expanded">
             <release-notes-item
               is-current
+              version="v0.7.5"
+              :new-features="['Added light theme']"
+            />
+            <release-notes-item
               version="v0.7.0"
               :new-features="[
                 'Timestamp: Added possibility to use ISO 8601 by leaving the format empty',
