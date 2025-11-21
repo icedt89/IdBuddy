@@ -4,6 +4,8 @@ Tired of juggling different websites and tools just to generate a simple ID? Say
 
 ID Buddy is a sleek, intuitive, and lightning-fast tool that simplifies your development workflow.
 
+Visit [ID Buddy](https://idbuddy.jan-hafner.de) now!
+
 ## 🌟 Features You'll Love
 
 - **Massive ID Variety:** Stop searching! Generate all the IDs you need in one place:
