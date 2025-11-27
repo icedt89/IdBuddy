@@ -2,22 +2,22 @@
   <v-expansion-panels>
     <generator-expansion-panel
       :title="title"
-      :value-generator="() => nanoid(sizeProxy)"
+      :value-generator="() => nanoid(lengthProxy)"
       has-details
       can-regenerate
     >
       <template #settings>
         <v-number-input
-          :min="sizeMinValue"
-          :max="sizeMaxValue"
-          v-model="sizeProxy"
-          label="Size"
+          :min="lengthMinValue"
+          :max="lengthMaxValue"
+          v-model="lengthProxy"
+          label="Length"
           :hint="`Must be a positive integer (1 -
-              ${sizeMaxValue})`"
+              ${lengthMaxValue})`"
           persistent-hint
         >
           <template #clear>
-            <clear-button @click:reset="() => (sizeProxy = undefined)" />
+            <clear-button @click:reset="() => (lengthProxy = undefined)" />
           </template>
         </v-number-input>
       </template>
@@ -34,17 +34,17 @@ import type { GeneratorProps } from '@generators/generator-props'
 
 defineProps<GeneratorProps>()
 
-const sizeMinValue = 1
-const sizeMaxValue = 65536
+const lengthMinValue = 1
+const lengthMaxValue = 65536
 
-const size = ref<number | string>('')
-const sizeProxy = computed({
+const length = ref<number | string>('')
+const lengthProxy = computed({
   get() {
-    if (size.value === '') {
+    if (length.value === '') {
       return undefined
     }
 
-    return +size.value
+    return +length.value
   },
   set(newValue: number | string) {
     if (newValue === null || newValue === undefined) {
@@ -53,18 +53,18 @@ const sizeProxy = computed({
 
     if (newValue !== '') {
       let asNumber = +newValue
-      if (asNumber < sizeMinValue) {
-        asNumber = sizeMinValue
-      } else if (asNumber > sizeMaxValue) {
-        asNumber = sizeMaxValue
+      if (asNumber < lengthMinValue) {
+        asNumber = lengthMinValue
+      } else if (asNumber > lengthMaxValue) {
+        asNumber = lengthMaxValue
       }
 
-      size.value = Math.trunc(asNumber)
+      length.value = Math.trunc(asNumber)
 
       return
     }
 
-    size.value = newValue
+    length.value = newValue
   },
 })
 </script>

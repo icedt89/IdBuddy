@@ -82,7 +82,7 @@ const historySizeMessage = computed(() =>
 )
 
 const autoRegenerateMessage = computed(() =>
-  isAutoRegenerateEnabled.value ? 'Auto regenerate is enabled' : undefined
+  !isAutoRegenerateEnabled.value ? 'Auto regenerate is disabled' : undefined
 )
 
 const historySizeProxy = computed({

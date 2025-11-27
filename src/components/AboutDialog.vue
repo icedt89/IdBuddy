@@ -11,6 +11,10 @@
           <v-expansion-panels v-model="expanded">
             <release-notes-item
               is-current
+              version="v0.7.6"
+              :bugfixes="['Cuid2: Fixed incorrect handling of length']"
+            />
+            <release-notes-item
               version="v0.7.5"
               :new-features="['Added light theme']"
             />

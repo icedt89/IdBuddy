@@ -36,7 +36,7 @@ import type { GeneratorProps } from '@generators/generator-props'
 defineProps<GeneratorProps>()
 
 const seedTimeMinValue = 0
-const seedTimeMaxValue = 2048
+const seedTimeMaxValue = 281474976710655
 
 const seedTime = ref<number | string>('')
 const seedTimeProxy = computed({

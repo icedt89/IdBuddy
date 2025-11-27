@@ -2,7 +2,13 @@
   <v-expansion-panels>
     <generator-expansion-panel
       :title="title"
-      :value-generator="() => cuid2()"
+      :value-generator="
+        () =>
+          initCuid2({
+            length: lengthProxy,
+            fingerprint: fingerprint,
+          })()
+      "
       has-details
       can-regenerate
     >
@@ -32,7 +38,10 @@
 </template>
 
 <script setup lang="ts">
-import { init as initCuid2 } from '@paralleldrive/cuid2'
+import {
+  init as initCuid2,
+  getConstants as getCuid2Defaults,
+} from '@paralleldrive/cuid2'
 import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
 import { computed, ref } from 'vue'
 import ClearButton from '@/components/ClearButton.vue'
@@ -40,10 +49,8 @@ import type { GeneratorProps } from '@generators/generator-props'
 
 defineProps<GeneratorProps>()
 
-const defaultLength = 24
-
-const lengthMinValue = 0
-const lengthMaxValue = 2048
+const lengthMinValue = 2
+const { defaultLength, bigLength: lengthMaxValue } = getCuid2Defaults()
 
 const length = ref<number | string>(defaultLength)
 const lengthProxy = computed({
@@ -77,11 +84,4 @@ const lengthProxy = computed({
 })
 
 const fingerprint = ref<string>('')
-
-const cuid2 = computed(() =>
-  initCuid2({
-    length: lengthProxy.value,
-    fingerprint: fingerprint.value,
-  })
-)
 </script>
