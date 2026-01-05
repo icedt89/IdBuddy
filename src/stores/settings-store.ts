@@ -27,6 +27,8 @@ export const useSettingsStore = defineStore(
       () => new Set<string>(hiddenGenerators.value)
     )
 
+    const automaticallyCopyToClipboardAfterManualRegenerate = ref(false)
+
     const autoRegenerateIntervalInSeconds = ref(
       autoRegenerateIntervalInSecondsMinValue
     )
@@ -95,6 +97,7 @@ export const useSettingsStore = defineStore(
       autoRegenerateIntervalInSeconds,
       isAutoRegenerateEnabled,
       currentTheme,
+      automaticallyCopyToClipboardAfterManualRegenerate,
       reset,
       isGeneratorVisible,
       setGeneratorVisibility,

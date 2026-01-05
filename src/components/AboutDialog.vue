@@ -11,6 +11,12 @@
           <v-expansion-panels v-model="expanded">
             <release-notes-item
               is-current
+              version="v0.8.0"
+              :bugfixes="[
+                'Automatically copy to clipboard after manual regenerate (enable via Settings)',
+              ]"
+            />
+            <release-notes-item
               version="v0.7.6"
               :bugfixes="['Cuid2: Fixed incorrect handling of length']"
             />

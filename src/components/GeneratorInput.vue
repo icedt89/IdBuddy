@@ -5,8 +5,7 @@
       <regenerate-button
         v-if="canRegenerate"
         class="ml-1"
-        @click="regenerateValue"
-        @regenerate="regenerateValue"
+        @regenerate="regenerateValue(true)"
       />
     </template>
   </v-text-field>
@@ -26,10 +25,15 @@ import RegenerateButton from '@/components/RegenerateButton.vue'
 import { getValue } from '@/helper/common-helper'
 import { useSettingsStore } from '@/stores/settings-store'
 import { storeToRefs } from 'pinia'
-import { useIntervalFn } from '@vueuse/core'
+import { useClipboard, useIntervalFn } from '@vueuse/core'
 
-const { autoRegenerateIntervalInSeconds, isAutoRegenerateEnabled } =
-  storeToRefs(useSettingsStore())
+const {
+  autoRegenerateIntervalInSeconds,
+  isAutoRegenerateEnabled,
+  automaticallyCopyToClipboardAfterManualRegenerate,
+} = storeToRefs(useSettingsStore())
+
+const { isSupported, copy } = useClipboard()
 
 const props = defineProps<{
   valueGenerator: () => string | Promise<string>
@@ -49,7 +53,7 @@ const autoRegenerateIntervalInMilliSeconds = computed(
 
 const { resume: resumeAutoRegenerate, pause: pauseAutoRegenerate } =
   useIntervalFn(
-    async () => await regenerateValue(),
+    async () => await regenerateValue(false),
     autoRegenerateIntervalInMilliSeconds,
     {}
   )
@@ -64,10 +68,18 @@ watch([isAutoRegenerateEnabled, () => props.canRegenerate], ([iare, cr]) => {
   pauseAutoRegenerate()
 })
 
-async function regenerateValue() {
+async function regenerateValue(isManual: boolean) {
   const oldValue = currentValue.value
 
   currentValue.value = await getValueFromGenerator()
+
+  if (
+    isManual &&
+    automaticallyCopyToClipboardAfterManualRegenerate.value &&
+    isSupported.value
+  ) {
+    copy(currentValue.value)
+  }
 
   emits('generated', oldValue, currentValue.value)
 }

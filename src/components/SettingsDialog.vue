@@ -3,7 +3,7 @@
     <template #default="{ isActive }">
       <v-card title="Settings">
         <v-card-text class="pb-0">
-          <v-row class="mb-1">
+          <v-row>
             <v-col>
               <v-number-input
                 v-model="historySizeProxy"
@@ -22,6 +22,14 @@
                 :min="autoRegenerateIntervalInSecondsMinValue"
                 hint="Interval in seconds after which all enabled generators generate a new value"
                 :messages="autoRegenerateMessage"
+              />
+            </v-col>
+          </v-row>
+          <v-row class="mb-2">
+            <v-col>
+              <v-switch
+                v-model="automaticallyCopyToClipboardAfterManualRegenerate"
+                label="Automatically copy to clipboard after manual regenerate"
               />
             </v-col>
           </v-row>
@@ -74,6 +82,7 @@ const {
   isHistoryEnabled,
   autoRegenerateIntervalInSeconds,
   isAutoRegenerateEnabled,
+  automaticallyCopyToClipboardAfterManualRegenerate,
 } = storeToRefs(settingsStore)
 const { isGeneratorVisible, setGeneratorVisibility } = settingsStore
 
