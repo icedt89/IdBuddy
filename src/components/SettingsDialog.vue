@@ -1,5 +1,5 @@
 <template>
-  <v-dialog max-width="500">
+  <v-dialog max-width="500" :fullscreen="xs">
     <template #default="{ isActive }">
       <v-card title="Settings">
         <v-card-text class="pb-0">
@@ -75,6 +75,9 @@ import {
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { generatorsList } from '@generators/generators'
+import { useDisplay } from 'vuetify'
+
+const { xs } = useDisplay()
 
 const settingsStore = useSettingsStore()
 const {

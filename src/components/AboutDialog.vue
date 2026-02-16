@@ -1,5 +1,5 @@
 <template>
-  <v-dialog max-width="600">
+  <v-dialog max-width="600" :fullscreen="xs">
     <template #default="{ isActive }">
       <v-card title="About ID Buddy">
         <v-card-text class="pb-0">
@@ -8,107 +8,120 @@
             database engines.
           </div>
 
-          <v-expansion-panels v-model="expanded">
-            <release-notes-item
-              is-current
-              version="v0.8.0"
-              :bugfixes="[
-                'Automatically copy to clipboard after manual regenerate (enable via Settings)',
-              ]"
-            />
-            <release-notes-item
-              version="v0.7.6"
-              :bugfixes="['Cuid2: Fixed incorrect handling of length']"
-            />
-            <release-notes-item
-              version="v0.7.5"
-              :new-features="['Added light theme']"
-            />
-            <release-notes-item
-              version="v0.7.0"
-              :new-features="[
-                'Timestamp: Added possibility to use ISO 8601 by leaving the format empty',
-                'Added possibility to auto regenerate at configurable second intervals',
-              ]"
-            />
-            <release-notes-item
-              version="v0.6.7"
-              :new-features="['Made App icon transparent']"
-            />
-            <release-notes-item
-              version="v0.6.6"
-              :new-features="['Removed external loading of Google Roboto font']"
-            />
-            <release-notes-item
-              version="v0.6.5"
-              :new-features="['Added \'Cuid2\'', 'Added \'Mongo ObjectID\'']"
-            />
-            <release-notes-item
-              version="v0.6.1"
-              :new-features="[
-                'Timestamp: added human readable display names for locales',
-              ]"
-              :bugfixes="[
-                'Timestamp: some date-fns format identifiers broke generation',
-              ]"
-            />
-            <release-notes-item
-              version="v0.6.0"
-              :new-features="['Custom theme (Github like)']"
-            />
-            <release-notes-item
-              version="v0.5.5"
-              :new-features="['Minor UI changes']"
-            />
-            <release-notes-item
-              version="v0.5.4"
-              :new-features="['Added dialog for resetting the App to defaults']"
-            />
-            <release-notes-item
-              version="v0.5.3"
-              :new-features="[
-                'Made history size configurable',
-                'Made visible generators configurable',
-                'Updated number input component',
-                'Added \'UUID Max\'',
-                'Renamed \'UUID Empty\' to \'UUID Nil\'',
-              ]"
-            />
-            <release-notes-item
-              version="v0.5.0"
-              :new-features="[
-                'Timestamp: added locale setting',
-                'Improved responsiveness for small devices',
-              ]"
-            />
-            <release-notes-item
-              version="v0.4.2"
-              :new-features="['Added info section to some generators']"
-            />
-            <release-notes-item
-              version="v0.4.0"
-              :new-features="[
-                'Added \'Nano ID\'-generator',
-                'Added \'Snowflake ID\'-generator',
-                'Added \'Timestamp\'-generator',
-              ]"
-            />
-            <release-notes-item
-              version="v0.2.0"
-              :new-features="[
-                'Added \'ULID\'-generator',
-                'Added \'XID\'-generator',
-              ]"
-            />
-            <release-notes-item
-              version="v0.1.0"
-              :new-features="[
-                'Added \'UUID Empty\'',
-                'Added \'UUID v4\'-generator',
-                'Added \'UUID v7\'-generator',
-              ]"
-              :miscellaneous="['Initial release']"
-            />
+          <v-expansion-panels v-model="releaseNotesExpanded">
+            <v-expansion-panel title="Release notes">
+              <v-expansion-panel-text>
+                <v-expansion-panels v-model="expanded">
+                  <release-notes-item
+                    is-current
+                    version="v0.8.0"
+                    :new-features="[
+                      'Automatically copy to clipboard after manual regenerate (enable via Settings)',
+                    ]"
+                  />
+                  <release-notes-item
+                    version="v0.7.6"
+                    :bugfixes="['Cuid2: Fixed incorrect handling of length']"
+                  />
+                  <release-notes-item
+                    version="v0.7.5"
+                    :new-features="['Added light theme']"
+                  />
+                  <release-notes-item
+                    version="v0.7.0"
+                    :new-features="[
+                      'Timestamp: Added possibility to use ISO 8601 by leaving the format empty',
+                      'Added possibility to auto regenerate at configurable second intervals',
+                    ]"
+                  />
+                  <release-notes-item
+                    version="v0.6.7"
+                    :new-features="['Made App icon transparent']"
+                  />
+                  <release-notes-item
+                    version="v0.6.6"
+                    :new-features="[
+                      'Removed external loading of Google Roboto font',
+                    ]"
+                  />
+                  <release-notes-item
+                    version="v0.6.5"
+                    :new-features="[
+                      'Added \'Cuid2\'',
+                      'Added \'Mongo ObjectID\'',
+                    ]"
+                  />
+                  <release-notes-item
+                    version="v0.6.1"
+                    :new-features="[
+                      'Timestamp: added human readable display names for locales',
+                    ]"
+                    :bugfixes="[
+                      'Timestamp: some date-fns format identifiers broke generation',
+                    ]"
+                  />
+                  <release-notes-item
+                    version="v0.6.0"
+                    :new-features="['Custom theme (Github like)']"
+                  />
+                  <release-notes-item
+                    version="v0.5.5"
+                    :new-features="['Minor UI changes']"
+                  />
+                  <release-notes-item
+                    version="v0.5.4"
+                    :new-features="[
+                      'Added dialog for resetting the App to defaults',
+                    ]"
+                  />
+                  <release-notes-item
+                    version="v0.5.3"
+                    :new-features="[
+                      'Made history size configurable',
+                      'Made visible generators configurable',
+                      'Updated number input component',
+                      'Added \'UUID Max\'',
+                      'Renamed \'UUID Empty\' to \'UUID Nil\'',
+                    ]"
+                  />
+                  <release-notes-item
+                    version="v0.5.0"
+                    :new-features="[
+                      'Timestamp: added locale setting',
+                      'Improved responsiveness for small devices',
+                    ]"
+                  />
+                  <release-notes-item
+                    version="v0.4.2"
+                    :new-features="['Added info section to some generators']"
+                  />
+                  <release-notes-item
+                    version="v0.4.0"
+                    :new-features="[
+                      'Added \'Nano ID\'-generator',
+                      'Added \'Snowflake ID\'-generator',
+                      'Added \'Timestamp\'-generator',
+                    ]"
+                  />
+                  <release-notes-item
+                    version="v0.2.0"
+                    :new-features="[
+                      'Added \'ULID\'-generator',
+                      'Added \'XID\'-generator',
+                    ]"
+                  />
+                  <release-notes-item
+                    version="v0.1.0"
+                    :new-features="[
+                      'Added \'UUID Empty\'',
+                      'Added \'UUID v4\'-generator',
+                      'Added \'UUID v7\'-generator',
+                    ]"
+                    :miscellaneous="['Initial release']"
+                  />
+                </v-expansion-panels>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
           </v-expansion-panels>
 
           <div class="mt-3 text-center opacity-50">
@@ -129,6 +142,10 @@
 import ReleaseNotesItem from '@/components/ReleaseNotesItem.vue'
 import { ref } from 'vue'
 import { appVersion } from '../environment'
+import { useDisplay } from 'vuetify'
 
+const { xs } = useDisplay()
+
+const releaseNotesExpanded = ref<boolean>(false)
 const expanded = ref<number | null>(0)
 </script>
