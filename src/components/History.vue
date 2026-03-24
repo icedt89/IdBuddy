@@ -2,13 +2,10 @@
   <v-card :class="{ 'opacity-50': !items.length }">
     <v-card-title class="pb-0">
       <v-row>
-        <v-col
-          cols="auto"
-          align-self="center"
-          class="text-body-1 font-weight-light"
+        <v-col cols="auto" class="text-body-large font-weight-light"
           >History</v-col
         >
-        <v-col align="right" align-self="center"
+        <v-col align="right"
           ><clear-button
             class="mb-1"
             v-if="items.length"

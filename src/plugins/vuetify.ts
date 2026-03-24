@@ -7,7 +7,7 @@
 // Styles
 import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
 import { md3 } from 'vuetify/blueprints'
-import 'vuetify/styles'
+import 'vuetify/styles/main.sass'
 
 // Composables
 import { createVuetify } from 'vuetify'
@@ -86,7 +86,7 @@ export default createVuetify({
       border: 'b-sm',
     },
     VRow: {
-      dense: true,
+      density: 'compact',
     },
     VBtn: {
       rounded: 'xs',

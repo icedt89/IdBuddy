@@ -34,7 +34,7 @@
             </v-col>
           </v-row>
           <v-card>
-            <v-card-title class="pb-0 text-body-1 font-weight-light">
+            <v-card-title class="pb-0 text-body-large font-weight-light">
               Generators
             </v-card-title>
             <v-card-text class="pb-0">
