@@ -17,10 +17,10 @@ export interface GeneratorMetadata {
   component: Component
 }
 
-export const generators: { [key: string]: GeneratorMetadata } = {
+export const generators = [
   uuidNil,
   uuidv4,
-  currentTimestamp: timestamp,
+  timestamp,
   uuidMax,
   uuidv7,
   ulid,
@@ -29,9 +29,4 @@ export const generators: { [key: string]: GeneratorMetadata } = {
   nanoId,
   cuid2,
   mongoObjectId,
-}
-
-export const generatorsList = Object.keys(generators).map((m) => generators[m]!)
-export const generatorsIdentifiersSet = new Set<string>(
-  generatorsList.map((g) => g.identifier)
-)
+]

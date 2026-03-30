@@ -1,4 +1,4 @@
-import { generatorsIdentifiersSet } from '@generators/generators'
+import { generators } from '@generators/generators'
 import { watchImmediate } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
@@ -22,9 +22,19 @@ export const useSettingsStore = defineStore(
     const historySize = ref(defaultHistorySize)
     const isHistoryEnabled = computed(() => !!historySize.value)
 
-    const hiddenGenerators = ref<string[]>([])
-    const hiddenGeneratorsSet = computed(
-      () => new Set<string>(hiddenGenerators.value)
+    const generatorsIdentifiersSet = computed(
+      () => new Set<string>(generators.map((g) => g.identifier))
+    )
+
+    const hiddenGeneratorsIdentifiers = ref<string[]>([])
+    const hiddenGeneratorsIdentifiersSet = computed(
+      () => new Set<string>(hiddenGeneratorsIdentifiers.value)
+    )
+
+    const visibleGenerators = computed(() =>
+      generators.filter(
+        (g) => !hiddenGeneratorsIdentifiersSet.value.has(g.identifier)
+      )
     )
 
     const automaticallyCopyToClipboardAfterManualRegenerate = ref(false)
@@ -36,16 +46,23 @@ export const useSettingsStore = defineStore(
       () => autoRegenerateIntervalInSeconds.value > 0
     )
 
-    const areAllGeneratorsHidden = computed(() =>
-      setsAreEqual(generatorsIdentifiersSet, hiddenGeneratorsSet.value)
+    const areAllGeneratorsHidden = computed(
+      () =>
+        generatorsIdentifiersSet.value.isSubsetOf(
+          hiddenGeneratorsIdentifiersSet.value
+        ) &&
+        hiddenGeneratorsIdentifiersSet.value.isSubsetOf(
+          generatorsIdentifiersSet.value
+        ) &&
+        visibleGenerators.value.length === 0
     )
 
     function isGeneratorVisible(generatorIdentifier: string) {
-      return !hiddenGeneratorsSet.value.has(generatorIdentifier)
+      return !hiddenGeneratorsIdentifiersSet.value.has(generatorIdentifier)
     }
 
     function unhideAllGenerators() {
-      hiddenGenerators.value = []
+      hiddenGeneratorsIdentifiers.value = []
     }
 
     function setGeneratorVisibility(
@@ -53,17 +70,17 @@ export const useSettingsStore = defineStore(
       value: boolean
     ) {
       const generatorIdentifierIndex =
-        hiddenGenerators.value.indexOf(generatorIdentifier)
+        hiddenGeneratorsIdentifiers.value.indexOf(generatorIdentifier)
       if (value) {
         if (generatorIdentifierIndex !== -1) {
-          hiddenGenerators.value.splice(generatorIdentifierIndex, 1)
+          hiddenGeneratorsIdentifiers.value.splice(generatorIdentifierIndex, 1)
         }
 
         return
       }
 
       if (generatorIdentifierIndex === -1) {
-        hiddenGenerators.value.push(generatorIdentifier)
+        hiddenGeneratorsIdentifiers.value.push(generatorIdentifier)
       }
     }
 
@@ -74,25 +91,11 @@ export const useSettingsStore = defineStore(
       unhideAllGenerators()
     }
 
-    function setsAreEqual<T>(a: Set<T>, b: Set<T>): boolean {
-      if (a.size !== b.size) {
-        return false
-      }
-
-      for (const item of a) {
-        if (!b.has(item)) {
-          return false
-        }
-      }
-
-      return true
-    }
-
     return {
       historySize,
       isHistoryEnabled,
-      hiddenGenerators,
-      hiddenGeneratorsSet,
+      hiddenGeneratorsIdentifiers,
+      visibleGenerators,
       areAllGeneratorsHidden,
       autoRegenerateIntervalInSeconds,
       isAutoRegenerateEnabled,
@@ -105,6 +108,32 @@ export const useSettingsStore = defineStore(
     }
   },
   {
-    persist: true,
+    persist: {
+      debug: true,
+      afterHydrate: (context) => {
+        // Remove unknown hidden generators
+        const storeWithHiddenGeneratorsLike = <
+          { hiddenGeneratorsIdentifiers: string[] }
+        >(<unknown>context.store)
+        for (const hiddenGeneratorKey of storeWithHiddenGeneratorsLike.hiddenGeneratorsIdentifiers) {
+          if (
+            generators.findIndex((g) => g.identifier === hiddenGeneratorKey) !==
+            -1
+          ) {
+            continue
+          }
+
+          const hiddenGeneratorKeyIndex =
+            storeWithHiddenGeneratorsLike.hiddenGeneratorsIdentifiers.indexOf(
+              hiddenGeneratorKey
+            )
+
+          storeWithHiddenGeneratorsLike.hiddenGeneratorsIdentifiers.splice(
+            hiddenGeneratorKeyIndex,
+            1
+          )
+        }
+      },
+    },
   }
 )

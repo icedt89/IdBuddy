@@ -40,7 +40,7 @@
             <v-card-text class="pb-0">
               <v-row no-gutters>
                 <v-col
-                  v-for="generator in generatorsList"
+                  v-for="generator in generators"
                   :key="generator.identifier"
                   cols="12"
                   sm="6"
@@ -74,7 +74,7 @@ import {
 } from '@/stores/settings-store'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { generatorsList } from '@generators/generators'
+import { generators } from '@generators/generators'
 import { useDisplay } from 'vuetify'
 
 const { xs } = useDisplay()

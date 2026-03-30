@@ -65,13 +65,12 @@
           />
         </v-alert>
 
-        <v-row v-if="generatorsList.length">
-          <template v-for="generator in generatorsList">
+        <v-row v-if="visibleGenerators.length">
+          <template v-for="(generator, generatorIndex) in visibleGenerators">
             <v-col
               cols="12"
-              sm="6"
-              md="4"
-              v-if="isGeneratorVisible(generator.identifier)"
+              :sm="computeSmColumnsCount(generatorIndex)"
+              :md="computeMdColumnsCount(generatorIndex)"
             >
               <Component
                 :is="generator.component"
@@ -95,17 +94,40 @@ import {
 import AboutDialog from '@/components/AboutDialog.vue'
 import SettingsDialog from '@/components/SettingsDialog.vue'
 import { useSettingsStore } from '@/stores/settings-store'
-import { generatorsList } from '@generators/generators'
 import { storeToRefs } from 'pinia'
 import ResetAppStateDialog from '@/components/ResetAppStateDialog.vue'
 import SwitchThemeListItem from '@/components/SwitchThemeListItem.vue'
 import { ref } from 'vue'
 
 const settingsStore = useSettingsStore()
-const { areAllGeneratorsHidden } = storeToRefs(settingsStore)
-const { isGeneratorVisible, unhideAllGenerators } = settingsStore
+const { areAllGeneratorsHidden, visibleGenerators } = storeToRefs(settingsStore)
+const { unhideAllGenerators } = settingsStore
 
 const isResetAppStateDialogOpen = ref(false)
 const isSettingsDialogOpen = ref(false)
 const isAboutDialogOpen = ref(false)
+
+function computeSmColumnsCount(generatorIndex: number) {
+  const visibleGeneratorsLength = visibleGenerators.value.length
+  const rest = visibleGeneratorsLength % 2
+  if (rest === 1 && generatorIndex === visibleGeneratorsLength - 1) {
+    return 12
+  }
+
+  return 6
+}
+
+function computeMdColumnsCount(generatorIndex: number) {
+  const visibleGeneratorsLength = visibleGenerators.value.length
+  const rest = visibleGeneratorsLength % 3
+  if (rest === 2 && generatorIndex >= visibleGeneratorsLength - 2) {
+    return 6
+  }
+
+  if (rest === 1 && generatorIndex === visibleGeneratorsLength - 1) {
+    return 12
+  }
+
+  return 4
+}
 </script>

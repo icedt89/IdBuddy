@@ -14,8 +14,12 @@
                 <v-expansion-panels v-model="expanded">
                   <release-notes-item
                     is-current
+                    version="v0.8.10"
+                    :new-features="['Made main screen more responsive']"
+                  />
+                  <release-notes-item
                     version="v0.8.8"
-                    :bugfixes="['The menu now closes when a dialog opens']"
+                    :new-features="['The menu now closes when a dialog opens']"
                   />
                   <release-notes-item
                     version="v0.8.0"
