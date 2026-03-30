@@ -1,4 +1,8 @@
 <template>
+  <reset-app-state-dialog v-model="isResetAppStateDialogOpen" />
+  <settings-dialog v-model="isSettingsDialogOpen" />
+  <about-dialog v-model="isAboutDialogOpen" />
+
   <v-app>
     <v-app-bar>
       <v-app-bar-title>
@@ -15,23 +19,28 @@
 
           <template #default>
             <app-main-menu>
-              <v-list-item :prepend-icon="mdiCog" title="Settings">
-                <settings-dialog activator="parent" />
-              </v-list-item>
+              <v-list-item
+                :prepend-icon="mdiCog"
+                title="Settings"
+                @click="isSettingsDialogOpen = true"
+              />
               <switch-theme-list-item />
               <v-divider />
-              <v-list-item title="Reset App">
-                <reset-app-state-dialog activator="parent" />
-
+              <v-list-item
+                title="Reset App"
+                @click="isResetAppStateDialogOpen = true"
+              >
                 <template #prepend>
                   <!-- Reserve space for item without icon -->
                   <div style="width: 44px"></div>
                 </template>
               </v-list-item>
               <v-divider />
-              <v-list-item :prepend-icon="mdiInformationOutline" title="About">
-                <about-dialog activator="parent" />
-              </v-list-item>
+              <v-list-item
+                :prepend-icon="mdiInformationOutline"
+                title="About"
+                @click="isAboutDialogOpen = true"
+              />
             </app-main-menu>
           </template>
         </v-menu>
@@ -90,8 +99,13 @@ import { generatorsList } from '@generators/generators'
 import { storeToRefs } from 'pinia'
 import ResetAppStateDialog from '@/components/ResetAppStateDialog.vue'
 import SwitchThemeListItem from '@/components/SwitchThemeListItem.vue'
+import { ref } from 'vue'
 
 const settingsStore = useSettingsStore()
 const { areAllGeneratorsHidden } = storeToRefs(settingsStore)
 const { isGeneratorVisible, unhideAllGenerators } = settingsStore
+
+const isResetAppStateDialogOpen = ref(false)
+const isSettingsDialogOpen = ref(false)
+const isAboutDialogOpen = ref(false)
 </script>

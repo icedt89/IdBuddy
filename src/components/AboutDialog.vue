@@ -14,6 +14,10 @@
                 <v-expansion-panels v-model="expanded">
                   <release-notes-item
                     is-current
+                    version="v0.8.8"
+                    :bugfixes="['The menu now closes when a dialog opens']"
+                  />
+                  <release-notes-item
                     version="v0.8.0"
                     :new-features="[
                       'Automatically copy to clipboard after manual regenerate (enable via Settings)',

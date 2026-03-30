@@ -19,7 +19,7 @@
 </style>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import CopyButton from '@/components/CopyButton.vue'
 import RegenerateButton from '@/components/RegenerateButton.vue'
 import { getValue } from '@/helper/common-helper'
@@ -47,14 +47,10 @@ const emits = defineEmits<{
 const currentValue = ref<string>('')
 onMounted(async () => (currentValue.value = await getValueFromGenerator()))
 
-const autoRegenerateIntervalInMilliSeconds = computed(
-  () => autoRegenerateIntervalInSeconds.value * 1000
-)
-
 const { resume: resumeAutoRegenerate, pause: pauseAutoRegenerate } =
   useIntervalFn(
     async () => await regenerateValue(false),
-    autoRegenerateIntervalInMilliSeconds,
+    autoRegenerateIntervalInSeconds.value * 1_000,
     {}
   )
 
