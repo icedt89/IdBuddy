@@ -2,9 +2,8 @@
   <v-expansion-panels>
     <generator-expansion-panel
       :title="title"
-      :value-generator="() => v7()"
-      has-details
-      can-regenerate
+      :value="currentValue"
+      @click:regenerate="() => generateValue(true)"
     />
   </v-expansion-panels>
 </template>
@@ -13,6 +12,9 @@
 import { v7 } from 'uuid'
 import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
 import type { GeneratorProps } from '@generators/generator-props'
+import { useValueGenerator } from '@/helper/generator-helper'
 
 defineProps<GeneratorProps>()
+
+const { currentValue, generateValue } = useValueGenerator(v7)
 </script>

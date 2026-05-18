@@ -2,9 +2,8 @@
   <v-expansion-panels>
     <generator-expansion-panel
       :title="title"
-      :value-generator="() => generate()"
-      has-details
-      can-regenerate
+      :value="currentValue"
+      @click:regenerate="() => generateValue(true)"
     >
       <template #settings>
         <v-text-field
@@ -16,7 +15,7 @@
           persistent-hint
         >
           <template #clear>
-            <clear-button @click:reset="() => (format = defaultFormat)" />
+            <clear-button @click="() => (format = defaultFormat)" />
           </template>
         </v-text-field>
         <v-select
@@ -30,7 +29,7 @@
           item-value="code"
         >
           <template #clear>
-            <clear-button @click:reset="() => (selectedLocale = undefined)" />
+            <clear-button @click="() => (selectedLocale = undefined)" />
           </template>
         </v-select>
       </template>
@@ -46,6 +45,7 @@ import ClearButton from '@/components/ClearButton.vue'
 import * as dateFnsLocales from 'date-fns/locale'
 import type { Locale } from 'date-fns/locale'
 import type { GeneratorProps } from '@generators/generator-props'
+import { useValueGenerator } from '@/helper/generator-helper'
 
 interface LocaleWithDisplayName extends Locale {
   displayName: string
@@ -175,7 +175,7 @@ const localesMap = new Map<string, Locale>(locales.map((l) => [l.code, l]))
 
 const selectedLocale = ref<string>()
 
-function generate(): string {
+const { currentValue, generateValue } = useValueGenerator(() => {
   const formatOptions: FormatOptions = {
     useAdditionalDayOfYearTokens: true,
     useAdditionalWeekYearTokens: true,
@@ -189,5 +189,5 @@ function generate(): string {
   }
 
   return formatDate(new Date(), format.value, formatOptions)
-}
+}, [selectedLocale, format])
 </script>

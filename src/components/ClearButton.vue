@@ -3,10 +3,10 @@
     <template #activator="{ props }">
       <dense-icon-button
         color="on-background"
-        :class="class"
+        :class="iconClass"
         v-bind="props"
         :icon="mdiClose"
-        @click="$emit('click:reset')"
+        @click="$emit('click')"
       />
     </template>
   </v-tooltip>
@@ -18,14 +18,14 @@ import { mdiClose } from '@mdi/js'
 withDefaults(
   defineProps<{
     tooltipText?: string
-    class?: string
+    iconClass?: string
   }>(),
   {
-    tooltipText: 'Reset',
+    tooltipText: 'Clear',
   }
 )
 
 defineEmits<{
-  (e: 'click:reset'): void
+  (e: 'click'): void
 }>()
 </script>

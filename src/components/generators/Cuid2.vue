@@ -2,20 +2,16 @@
   <v-expansion-panels>
     <generator-expansion-panel
       :title="title"
-      :value-generator="
-        () =>
-          initCuid2({
-            length: lengthProxy,
-            fingerprint: fingerprint,
-          })()
-      "
-      has-details
-      can-regenerate
+      :value="currentValue"
+      @click:regenerate="() => generateValue(true)"
     >
       <template #settings>
         <v-text-field v-model="fingerprint" label="Fingerprint">
           <template #clear>
-            <clear-button @click:reset="() => (fingerprint = '')" />
+            <clear-button
+              tooltip-text="Reset"
+              @click="() => (fingerprint = '')"
+            />
           </template>
         </v-text-field>
 
@@ -29,7 +25,10 @@
           persistent-hint
         >
           <template #clear>
-            <clear-button @click:reset="() => (lengthProxy = defaultLength)" />
+            <clear-button
+              tooltip-text="Reset"
+              @click="() => (lengthProxy = defaultLength)"
+            />
           </template>
         </v-number-input>
       </template>
@@ -46,6 +45,7 @@ import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
 import { computed, ref } from 'vue'
 import ClearButton from '@/components/ClearButton.vue'
 import type { GeneratorProps } from '@generators/generator-props'
+import { useValueGenerator } from '@/helper/generator-helper'
 
 defineProps<GeneratorProps>()
 
@@ -84,4 +84,12 @@ const lengthProxy = computed({
 })
 
 const fingerprint = ref<string>('')
+
+const { currentValue, generateValue } = useValueGenerator(
+  initCuid2({
+    length: lengthProxy.value,
+    fingerprint: fingerprint.value,
+  }),
+  [lengthProxy, fingerprint]
+)
 </script>

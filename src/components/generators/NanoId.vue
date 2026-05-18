@@ -2,9 +2,8 @@
   <v-expansion-panels>
     <generator-expansion-panel
       :title="title"
-      :value-generator="() => nanoid(lengthProxy)"
-      has-details
-      can-regenerate
+      :value="currentValue"
+      @click:regenerate="() => generateValue(true)"
     >
       <template #settings>
         <v-number-input
@@ -17,7 +16,7 @@
           persistent-hint
         >
           <template #clear>
-            <clear-button @click:reset="() => (lengthProxy = undefined)" />
+            <clear-button @click="() => (lengthProxy = undefined)" />
           </template>
         </v-number-input>
       </template>
@@ -31,6 +30,7 @@ import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
 import { computed, ref } from 'vue'
 import ClearButton from '@/components/ClearButton.vue'
 import type { GeneratorProps } from '@generators/generator-props'
+import { useValueGenerator } from '@/helper/generator-helper'
 
 defineProps<GeneratorProps>()
 
@@ -67,4 +67,9 @@ const lengthProxy = computed({
     length.value = newValue
   },
 })
+
+const { currentValue, generateValue } = useValueGenerator(
+  () => nanoid(lengthProxy.value),
+  [lengthProxy]
+)
 </script>

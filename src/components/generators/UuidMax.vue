@@ -2,9 +2,9 @@
   <v-expansion-panels hide-actions readonly>
     <generator-expansion-panel
       :title="title"
-      :value-generator="() => MAX"
-      :has-details="false"
-      :can-regenerate="false"
+      :value="MAX"
+      disable-history
+      disable-regenerate
     />
   </v-expansion-panels>
 </template>

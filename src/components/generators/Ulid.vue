@@ -2,9 +2,8 @@
   <v-expansion-panels>
     <generator-expansion-panel
       :title="title"
-      :value-generator="() => ulid(seedTimeProxy)"
-      has-details
-      can-regenerate
+      :value="currentValue"
+      @click:regenerate="() => generateValue(true)"
     >
       <template #settings>
         <v-number-input
@@ -18,7 +17,7 @@
           persistent-hint
         >
           <template #clear>
-            <clear-button @click:reset="() => (seedTimeProxy = undefined)" />
+            <clear-button @click="() => (seedTimeProxy = undefined)" />
           </template>
         </v-number-input>
       </template>
@@ -32,6 +31,7 @@ import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
 import { computed, ref } from 'vue'
 import ClearButton from '@/components/ClearButton.vue'
 import type { GeneratorProps } from '@generators/generator-props'
+import { useValueGenerator } from '@/helper/generator-helper'
 
 defineProps<GeneratorProps>()
 
@@ -68,4 +68,9 @@ const seedTimeProxy = computed({
     seedTime.value = newValue
   },
 })
+
+const { currentValue, generateValue } = useValueGenerator(
+  () => ulid(seedTimeProxy.value),
+  [seedTimeProxy]
+)
 </script>

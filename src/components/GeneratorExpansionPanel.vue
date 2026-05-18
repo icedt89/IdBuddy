@@ -5,13 +5,13 @@
     </v-expansion-panel-title>
     <v-container>
       <generator-input
-        :can-regenerate="canRegenerate"
-        @generated="(v) => addToHistory(v)"
-        :value-generator="valueGenerator"
+        :disable-regenerate="disableRegenerate"
+        @click:regenerate="$emit('click:regenerate')"
+        :value="value"
       />
     </v-container>
-    <v-expansion-panel-text v-if="hasDetails">
-      <history :items="history.items" />
+    <v-expansion-panel-text v-if="!disableHistory || $slots['settings']">
+      <history v-if="!disableHistory" :items="history.items" />
       <template v-if="$slots['settings']">
         <v-divider class="my-4" />
         <slot name="settings" />
@@ -30,11 +30,15 @@ import { storeToRefs } from 'pinia'
 
 const { historySize } = storeToRefs(useSettingsStore())
 
-defineProps<{
+const props = defineProps<{
   title: string
-  valueGenerator: () => string | Promise<string>
-  hasDetails: boolean
-  canRegenerate: boolean
+  value: string
+  disableHistory?: boolean
+  disableRegenerate?: boolean
+}>()
+
+const emits = defineEmits<{
+  (e: 'click:regenerate'): void
 }>()
 
 const history = ref<LimitedSizeList<string>>(
@@ -49,4 +53,15 @@ function addToHistory(item: string) {
 
   history.value.unshift(item)
 }
+
+watch(
+  () => props.value,
+  (_, ov) => {
+    if (!ov) {
+      return
+    }
+
+    addToHistory(ov)
+  }
+)
 </script>

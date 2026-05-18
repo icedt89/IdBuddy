@@ -5,7 +5,7 @@
         :class="class"
         v-bind="props"
         :icon="mdiRefresh"
-        @click="$emit('regenerate')"
+        @click="$emit('click')"
       />
     </template>
   </v-tooltip>
@@ -19,6 +19,6 @@ defineProps<{
 }>()
 
 defineEmits<{
-  (e: 'regenerate'): void
+  (e: 'click'): void
 }>()
 </script>

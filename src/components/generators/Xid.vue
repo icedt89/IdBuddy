@@ -2,9 +2,8 @@
   <v-expansion-panels>
     <generator-expansion-panel
       :title="title"
-      :value-generator="() => new Xid().toString()"
-      has-details
-      can-regenerate
+      :value="currentValue"
+      @click:regenerate="() => generateValue(true)"
     />
   </v-expansion-panels>
 </template>
@@ -13,6 +12,11 @@
 import { Xid } from 'xid-ts'
 import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
 import type { GeneratorProps } from '@generators/generator-props'
+import { useValueGenerator } from '@/helper/generator-helper'
 
 defineProps<GeneratorProps>()
+
+const { currentValue, generateValue } = useValueGenerator(() =>
+  new Xid().toString()
+)
 </script>

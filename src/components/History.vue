@@ -6,11 +6,7 @@
           >History</v-col
         >
         <v-col align="right"
-          ><clear-button
-            class="mb-1"
-            v-if="items.length"
-            tooltip-text="Clear history"
-            @click:reset="clearHistory"
+          ><clear-button class="mb-1" v-if="items.length" @click="clearHistory"
         /></v-col>
       </v-row>
     </v-card-title>

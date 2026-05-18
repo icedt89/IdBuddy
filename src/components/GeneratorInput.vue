@@ -1,11 +1,11 @@
 <template>
-  <v-text-field readonly :model-value="currentValue" hide-details>
+  <v-text-field readonly :model-value="value" hide-details>
     <template #append-inner>
-      <copy-button :value="currentValue" />
+      <copy-button :value="value" />
       <regenerate-button
-        v-if="canRegenerate"
+        v-if="!disableRegenerate"
         class="ml-1"
-        @regenerate="regenerateValue(true)"
+        @click="$emit('click:regenerate')"
       />
     </template>
   </v-text-field>
@@ -19,68 +19,15 @@
 </style>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
 import CopyButton from '@/components/CopyButton.vue'
 import RegenerateButton from '@/components/RegenerateButton.vue'
-import { getValue } from '@/helper/common-helper'
-import { useSettingsStore } from '@/stores/settings-store'
-import { storeToRefs } from 'pinia'
-import { useClipboard, useIntervalFn } from '@vueuse/core'
-
-const {
-  autoRegenerateIntervalInSeconds,
-  isAutoRegenerateEnabled,
-  automaticallyCopyToClipboardAfterManualRegenerate,
-} = storeToRefs(useSettingsStore())
-
-const { isSupported, copy } = useClipboard()
 
 const props = defineProps<{
-  valueGenerator: () => string | Promise<string>
-  canRegenerate: boolean
+  value: string
+  disableRegenerate?: boolean
 }>()
 
 const emits = defineEmits<{
-  (e: 'generated', oldValue: string, newValue: string): void
+  (e: 'click:regenerate'): void
 }>()
-
-const currentValue = ref<string>('')
-onMounted(async () => (currentValue.value = await getValueFromGenerator()))
-
-const { resume: resumeAutoRegenerate, pause: pauseAutoRegenerate } =
-  useIntervalFn(
-    async () => await regenerateValue(false),
-    autoRegenerateIntervalInSeconds.value * 1_000,
-    {}
-  )
-
-watch([isAutoRegenerateEnabled, () => props.canRegenerate], ([iare, cr]) => {
-  if (iare && cr) {
-    resumeAutoRegenerate()
-
-    return
-  }
-
-  pauseAutoRegenerate()
-})
-
-async function regenerateValue(isManual: boolean) {
-  const oldValue = currentValue.value
-
-  currentValue.value = await getValueFromGenerator()
-
-  if (
-    isManual &&
-    automaticallyCopyToClipboardAfterManualRegenerate.value &&
-    isSupported.value
-  ) {
-    copy(currentValue.value)
-  }
-
-  emits('generated', oldValue, currentValue.value)
-}
-
-async function getValueFromGenerator() {
-  return await getValue(props.valueGenerator)
-}
 </script>

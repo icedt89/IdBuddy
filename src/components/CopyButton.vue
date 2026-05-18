@@ -20,6 +20,10 @@ const icon = refAutoReset(mdiContentCopy, 1500)
 const { isSupported, copy } = useClipboard()
 
 function copyValue() {
+  if (!isSupported.value) {
+    return
+  }
+
   copy(props.value)
 
   icon.value = mdiCheck
