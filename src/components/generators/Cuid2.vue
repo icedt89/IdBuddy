@@ -27,7 +27,7 @@
           <template #clear>
             <clear-button
               tooltip-text="Reset"
-              @click="() => (lengthProxy = defaultLength)"
+              @click="() => (lengthProxy = lengthDefault)"
             />
           </template>
         </v-number-input>
@@ -46,24 +46,29 @@ import { computed, ref } from 'vue'
 import ClearButton from '@/components/ClearButton.vue'
 import type { GeneratorProps } from '@generators/generator-props'
 import { useValueGenerator } from '@/helper/generator-helper'
+import { useGeneratorSettings } from '@/helper/generator-settings-helper'
 
-defineProps<GeneratorProps>()
+const props = defineProps<GeneratorProps>()
 
 const lengthMinValue = 2
-const { defaultLength, bigLength: lengthMaxValue } = getCuid2Defaults()
+const { defaultLength: lengthDefault, bigLength: lengthMaxValue } =
+  getCuid2Defaults()
+const fingerprintDefault = ''
 
-const length = ref<number | string>(defaultLength)
+const fingerprint = ref<string>(fingerprintDefault)
+
+const length = ref<number | string>(lengthDefault)
 const lengthProxy = computed({
   get() {
     if (length.value === '') {
-      return defaultLength
+      return lengthDefault
     }
 
     return +length.value
   },
   set(newValue: number | string) {
     if (newValue === null || newValue === undefined) {
-      newValue = defaultLength
+      newValue = lengthDefault
     }
 
     if (newValue !== '') {
@@ -83,13 +88,26 @@ const lengthProxy = computed({
   },
 })
 
-const fingerprint = ref<string>('')
+const settingsObject = computed(() => ({
+  fingerprint: fingerprint.value,
+  length: lengthProxy.value,
+}))
 
 const { currentValue, generateValue } = useValueGenerator(
   initCuid2({
-    length: lengthProxy.value,
     fingerprint: fingerprint.value,
+    length: lengthProxy.value,
   }),
-  [lengthProxy, fingerprint]
+  [settingsObject]
+)
+
+useGeneratorSettings(
+  props.identifier,
+  settingsObject,
+  (so) => so.fingerprint === fingerprintDefault && so.length === lengthDefault,
+  (gs) => {
+    fingerprint.value = gs.fingerprint || fingerprintDefault
+    lengthProxy.value = gs.length || lengthDefault
+  }
 )
 </script>

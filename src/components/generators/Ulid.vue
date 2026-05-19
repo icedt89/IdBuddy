@@ -17,7 +17,7 @@
           persistent-hint
         >
           <template #clear>
-            <clear-button @click="() => (seedTimeProxy = undefined)" />
+            <clear-button @click="() => (seedTimeProxy = seedTimeDefault)" />
           </template>
         </v-number-input>
       </template>
@@ -32,17 +32,19 @@ import { computed, ref } from 'vue'
 import ClearButton from '@/components/ClearButton.vue'
 import type { GeneratorProps } from '@generators/generator-props'
 import { useValueGenerator } from '@/helper/generator-helper'
+import { useGeneratorSettings } from '@/helper/generator-settings-helper'
 
-defineProps<GeneratorProps>()
+const props = defineProps<GeneratorProps>()
 
 const seedTimeMinValue = 0
 const seedTimeMaxValue = 281474976710655
+const seedTimeDefault = undefined
 
 const seedTime = ref<number | string>('')
 const seedTimeProxy = computed({
   get() {
     if (seedTime.value === '') {
-      return undefined
+      return seedTimeDefault
     }
 
     return +seedTime.value
@@ -69,8 +71,21 @@ const seedTimeProxy = computed({
   },
 })
 
+const settingsObject = computed(() => ({
+  seedTime: seedTimeProxy.value,
+}))
+
 const { currentValue, generateValue } = useValueGenerator(
   () => ulid(seedTimeProxy.value),
-  [seedTimeProxy]
+  [settingsObject]
+)
+
+useGeneratorSettings(
+  props.identifier,
+  settingsObject,
+  (so) => so.seedTime === seedTimeDefault,
+  (gs) => {
+    seedTimeProxy.value = gs.seedTime || 0
+  }
 )
 </script>

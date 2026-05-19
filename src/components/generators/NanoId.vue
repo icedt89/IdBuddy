@@ -16,7 +16,7 @@
           persistent-hint
         >
           <template #clear>
-            <clear-button @click="() => (lengthProxy = undefined)" />
+            <clear-button @click="() => (lengthProxy = lengthDefault)" />
           </template>
         </v-number-input>
       </template>
@@ -31,24 +31,26 @@ import { computed, ref } from 'vue'
 import ClearButton from '@/components/ClearButton.vue'
 import type { GeneratorProps } from '@generators/generator-props'
 import { useValueGenerator } from '@/helper/generator-helper'
+import { useGeneratorSettings } from '@/helper/generator-settings-helper'
 
-defineProps<GeneratorProps>()
+const props = defineProps<GeneratorProps>()
 
 const lengthMinValue = 1
 const lengthMaxValue = 65536
+const lengthDefault = 21
 
-const length = ref<number | string>('')
+const length = ref<number | string>(lengthDefault)
 const lengthProxy = computed({
   get() {
     if (length.value === '') {
-      return undefined
+      return lengthDefault
     }
 
     return +length.value
   },
   set(newValue: number | string) {
     if (newValue === null || newValue === undefined) {
-      newValue = ''
+      newValue = lengthDefault
     }
 
     if (newValue !== '') {
@@ -68,8 +70,21 @@ const lengthProxy = computed({
   },
 })
 
+const settingsObject = computed(() => ({
+  length: lengthProxy.value,
+}))
+
 const { currentValue, generateValue } = useValueGenerator(
   () => nanoid(lengthProxy.value),
-  [lengthProxy]
+  [settingsObject]
+)
+
+useGeneratorSettings(
+  props.identifier,
+  settingsObject,
+  (so) => so.length === lengthDefault,
+  (gs) => {
+    lengthProxy.value = gs.length || lengthDefault
+  }
 )
 </script>

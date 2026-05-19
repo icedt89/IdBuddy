@@ -20,6 +20,12 @@
   </v-expansion-panel>
 </template>
 
+<style lang="scss" scoped>
+:deep(.v-expansion-panel-text__wrapper) {
+  padding-top: 0;
+}
+</style>
+
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { LimitedSizeList } from '@/helper/limited-size-list'

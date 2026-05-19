@@ -1,6 +1,6 @@
 import { generators } from '@generators/generators'
 import { watchImmediate } from '@vueuse/core'
-import { defineStore } from 'pinia'
+import { defineStore, type PiniaPluginContext } from 'pinia'
 import { computed, ref } from 'vue'
 import { useTheme } from 'vuetify'
 
@@ -109,31 +109,38 @@ export const useSettingsStore = defineStore(
   },
   {
     persist: {
-      debug: true,
-      afterHydrate: (context) => {
-        // Remove unknown hidden generators
-        const storeWithHiddenGeneratorsLike = <
-          { hiddenGeneratorsIdentifiers: string[] }
-        >(<unknown>context.store)
-        for (const hiddenGeneratorKey of storeWithHiddenGeneratorsLike.hiddenGeneratorsIdentifiers) {
-          if (
-            generators.findIndex((g) => g.identifier === hiddenGeneratorKey) !==
-            -1
-          ) {
-            continue
-          }
-
-          const hiddenGeneratorKeyIndex =
-            storeWithHiddenGeneratorsLike.hiddenGeneratorsIdentifiers.indexOf(
-              hiddenGeneratorKey
-            )
-
-          storeWithHiddenGeneratorsLike.hiddenGeneratorsIdentifiers.splice(
-            hiddenGeneratorKeyIndex,
-            1
-          )
-        }
-      },
+      afterHydrate: afterRestoreSettingsStore,
     },
   }
 )
+
+function afterRestoreSettingsStore(context: PiniaPluginContext) {
+  const storeWithHiddenGeneratorsLike = <
+    { hiddenGeneratorsIdentifiers: string[] }
+  >(<unknown>context.store)
+
+  if (!storeWithHiddenGeneratorsLike.hiddenGeneratorsIdentifiers) {
+    return
+  }
+
+  // Remove unknown hidden generators
+  for (const hiddenGeneratorIdentifier of storeWithHiddenGeneratorsLike.hiddenGeneratorsIdentifiers) {
+    if (
+      generators.findIndex(
+        (g) => g.identifier === hiddenGeneratorIdentifier
+      ) !== -1
+    ) {
+      continue
+    }
+
+    const hiddenGeneratorKeyIndex =
+      storeWithHiddenGeneratorsLike.hiddenGeneratorsIdentifiers.indexOf(
+        hiddenGeneratorIdentifier
+      )
+
+    storeWithHiddenGeneratorsLike.hiddenGeneratorsIdentifiers.splice(
+      hiddenGeneratorKeyIndex,
+      1
+    )
+  }
+}

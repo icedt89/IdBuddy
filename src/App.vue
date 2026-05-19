@@ -75,6 +75,7 @@
               <Component
                 :is="generator.component"
                 :title="generator.displayName"
+                :identifier="generator.identifier"
               />
             </v-col>
           </template>

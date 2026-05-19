@@ -18,7 +18,7 @@
           persistent-hint
         >
           <template #clear>
-            <clear-button @click="() => (machineIdProxy = machineIdMinValue)" />
+            <clear-button @click="() => (machineIdProxy = machineIdDefault)" />
           </template>
         </v-number-input>
       </template>
@@ -33,13 +33,15 @@ import { computed, ref } from 'vue'
 import ClearButton from '@/components/ClearButton.vue'
 import type { GeneratorProps } from '@generators/generator-props'
 import { useValueGenerator } from '@/helper/generator-helper'
+import { useGeneratorSettings } from '@/helper/generator-settings-helper'
 
-defineProps<GeneratorProps>()
+const props = defineProps<GeneratorProps>()
 
 const machineIdMinValue = 0
 const machineIdMaxValue = 1023
+const machineIdDefault = 0
 
-const machineId = ref<number | string>(0)
+const machineId = ref<number | string>(machineIdDefault)
 const machineIdProxy = computed({
   get() {
     if (machineId.value === '') {
@@ -66,8 +68,21 @@ const machineIdProxy = computed({
   },
 })
 
+const settingsObject = computed(() => ({
+  machineId: machineIdProxy.value,
+}))
+
 const { currentValue, generateValue } = useValueGenerator(
   () => new Snowflake(machineIdProxy.value).generate(),
-  [machineIdProxy]
+  [settingsObject]
+)
+
+useGeneratorSettings(
+  props.identifier,
+  settingsObject,
+  (so) => so.machineId === machineIdDefault,
+  (gs) => {
+    machineIdProxy.value = gs.machineId || machineIdDefault
+  }
 )
 </script>

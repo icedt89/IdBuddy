@@ -2,22 +2,25 @@
   <v-card :class="{ 'opacity-50': !items.length }">
     <v-card-title class="pb-0">
       <v-row>
-        <v-col cols="auto" class="text-body-large font-weight-light"
-          >History</v-col
+        <v-col
+          :class="{
+            'text-body-large': isHistoryEnabled,
+            'font-weight-light': isHistoryEnabled,
+            'text-body-medium': !isHistoryEnabled,
+            'font-weight-thin': !isHistoryEnabled,
+          }"
         >
+          History
+          <template v-if="!isHistoryEnabled"> is disabled </template>
+        </v-col>
         <v-col align="right"
           ><clear-button class="mb-1" v-if="items.length" @click="clearHistory"
         /></v-col>
       </v-row>
     </v-card-title>
-    <v-card-text :class="{ 'pb-2': !items.length }">
-      <small>
-        <em>
-          <template v-if="!isHistoryEnabled"> History is disabled </template>
-          <template v-else-if="!items.length">
-            Generate something first
-          </template>
-        </em>
+    <v-card-text class="pb-2">
+      <small v-if="isHistoryEnabled && !items.length" class="font-weight-light">
+        <em> Generate something first </em>
       </small>
       <template v-if="!!items.length">
         <v-row v-for="item in items" :key="item" no-gutters>

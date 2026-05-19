@@ -15,7 +15,7 @@
           persistent-hint
         >
           <template #clear>
-            <clear-button @click="() => (format = defaultFormat)" />
+            <clear-button @click="() => (format = formatDefault)" />
           </template>
         </v-text-field>
         <v-select
@@ -29,7 +29,7 @@
           item-value="code"
         >
           <template #clear>
-            <clear-button @click="() => (selectedLocale = undefined)" />
+            <clear-button @click="() => (selectedLocale = localeDefault)" />
           </template>
         </v-select>
       </template>
@@ -46,17 +46,18 @@ import * as dateFnsLocales from 'date-fns/locale'
 import type { Locale } from 'date-fns/locale'
 import type { GeneratorProps } from '@generators/generator-props'
 import { useValueGenerator } from '@/helper/generator-helper'
+import { useGeneratorSettings } from '@/helper/generator-settings-helper'
 
 interface LocaleWithDisplayName extends Locale {
   displayName: string
 }
 
-defineProps<GeneratorProps>()
+const props = defineProps<GeneratorProps>()
 
-const defaultFormat = ''
+const formatDefault = ''
+const localeDefault = undefined
 
-const format = ref<string>(defaultFormat)
-
+const format = ref<string>(formatDefault)
 const useIso8601 = computed(() => format.value === '')
 
 // Generated via ChatGPT
@@ -173,7 +174,12 @@ const locales = Object.entries(dateFnsLocales).map(([_, locale]) => {
 })
 const localesMap = new Map<string, Locale>(locales.map((l) => [l.code, l]))
 
-const selectedLocale = ref<string>()
+const selectedLocale = ref<string | undefined>(localeDefault)
+
+const settingsObject = computed(() => ({
+  format: format.value,
+  locale: selectedLocale.value,
+}))
 
 const { currentValue, generateValue } = useValueGenerator(() => {
   const formatOptions: FormatOptions = {
@@ -189,5 +195,15 @@ const { currentValue, generateValue } = useValueGenerator(() => {
   }
 
   return formatDate(new Date(), format.value, formatOptions)
-}, [selectedLocale, format])
+}, [settingsObject])
+
+useGeneratorSettings(
+  props.identifier,
+  settingsObject,
+  (so) => so.format === formatDefault && so.locale === localeDefault,
+  (gs) => {
+    format.value = gs.format || formatDefault
+    selectedLocale.value = gs.locale || localeDefault
+  }
+)
 </script>
