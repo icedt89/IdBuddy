@@ -12,6 +12,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AboutDialog: typeof import('./src/components/AboutDialog.vue')['default']
+    CasingSelector: typeof import('./src/components/CasingSelector.vue')['default']
     ClearButton: typeof import('./src/components/ClearButton.vue')['default']
     CopyButton: typeof import('./src/components/CopyButton.vue')['default']
     Cuid2: typeof import('./src/components/generators/Cuid2.vue')['default']
@@ -27,10 +28,10 @@ declare module 'vue' {
     SwitchThemeListItem: typeof import('./src/components/SwitchThemeListItem.vue')['default']
     Timestamp: typeof import('./src/components/generators/Timestamp.vue')['default']
     Ulid: typeof import('./src/components/generators/Ulid.vue')['default']
-    UuidMax: typeof import('./src/components/generators/UuidMax.vue')['default']
-    UuidNil: typeof import('./src/components/generators/UuidNil.vue')['default']
-    UuidV4: typeof import('./src/components/generators/UuidV4.vue')['default']
-    UuidV7: typeof import('./src/components/generators/UuidV7.vue')['default']
+    Uuid: typeof import('./src/components/generators/Uuid.vue')['default']
+    UuidBase: typeof import('./src/components/generators/UuidBase.vue')['default']
+    UuidFormatSelector: typeof import('./src/components/UuidFormatSelector.vue')['default']
+    UuidStatic: typeof import('./src/components/generators/UuidStatic.vue')['default']
     Xid: typeof import('./src/components/generators/Xid.vue')['default']
   }
 }

@@ -2,14 +2,12 @@ import type { Component } from 'vue'
 import { timestamp } from '@generators/timestamp'
 import { nanoId } from '@generators/nano-id'
 import { snowflakeId } from '@generators/snowflake-id'
-import { uuidMax } from '@generators/uuid-max'
-import { uuidNil } from '@generators/uuid-nil'
-import { uuidv4 } from '@generators/uuid-v4'
-import { uuidv7 } from '@generators/uuid-v7'
 import { xid } from '@generators/xid'
 import { ulid } from '@generators/ulid'
 import { cuid2 } from '@generators/cuid2'
 import { mongoObjectId } from '@generators/mongo-objectid'
+import { uuid } from '@generators/uuid'
+import { uuidStatic } from '@generators/uuid-static'
 
 export interface GeneratorMetadata {
   identifier: string
@@ -18,11 +16,9 @@ export interface GeneratorMetadata {
 }
 
 export const generators = [
-  uuidNil,
-  uuidv4,
+  uuidStatic,
+  uuid,
   timestamp,
-  uuidMax,
-  uuidv7,
   ulid,
   xid,
   snowflakeId,
