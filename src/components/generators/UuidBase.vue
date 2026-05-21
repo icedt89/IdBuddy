@@ -116,7 +116,8 @@ function generateUuid() {
 
 const { currentValue, generateValue } = useValueGenerator(
   () => formatUuid(applyCasing(generateUuid(), casing.value), format.value),
-  [settingsObject]
+  [settingsObject],
+  props.disableRegenerate
 )
 
 useGeneratorSettings(

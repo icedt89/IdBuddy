@@ -6,31 +6,34 @@ import { onMounted, readonly, ref, watch, type WatchSource } from 'vue'
 export function useValueGenerator(
   valueGenerator: () => string | Promise<string>,
   watchSources: WatchSource | WatchSource[] | undefined = undefined,
+  disableAutoRegenerate: boolean = false,
   debounce: number = 500
 ) {
-  const {
-    autoRegenerateIntervalInSeconds,
-    isAutoRegenerateEnabled,
-    automaticallyCopyToClipboardAfterManualRegenerate,
-  } = storeToRefs(useSettingsStore())
-
   const { isSupported, copy } = useClipboard()
 
-  const { resume: resumeAutoRegenerate, pause: pauseAutoRegenerate } =
-    useIntervalFn(
-      async () => generateValue(false),
-      () => autoRegenerateIntervalInSeconds.value * 1_000
-    )
+  const { automaticallyCopyToClipboardAfterManualRegenerate } =
+    storeToRefs(useSettingsStore())
 
-  watch(isAutoRegenerateEnabled, (iare) => {
-    if (iare) {
-      resumeAutoRegenerate()
+  if (!disableAutoRegenerate) {
+    const { autoRegenerateIntervalInSeconds, isAutoRegenerateEnabled } =
+      storeToRefs(useSettingsStore())
 
-      return
-    }
+    const { resume: resumeAutoRegenerate, pause: pauseAutoRegenerate } =
+      useIntervalFn(
+        async () => generateValue(false),
+        () => autoRegenerateIntervalInSeconds.value * 1_000
+      )
 
-    pauseAutoRegenerate()
-  })
+    watch(isAutoRegenerateEnabled, (iare) => {
+      if (iare) {
+        resumeAutoRegenerate()
+
+        return
+      }
+
+      pauseAutoRegenerate()
+    })
+  }
 
   const currentValue = ref('')
 
