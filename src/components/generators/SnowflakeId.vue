@@ -13,12 +13,21 @@
           v-model="machineIdProxy"
           label="Machine ID"
           required
-          :hint="`Must be a positive integer (${machineIdMinValue} -
-              ${machineIdMaxValue})`"
-          persistent-hint
+          hide-details
         >
+          <template #append-inner>
+            <v-icon
+              size="small"
+              :icon="mdiInformationOutline"
+              v-tooltip="
+                `Positive integer (${machineIdMinValue} -
+              ${machineIdMaxValue})`
+              "
+            />
+          </template>
+
           <template #clear>
-            <clear-button @click="() => (machineIdProxy = machineIdDefault)" />
+            <clear-btn @click="() => (machineIdProxy = machineIdDefault)" />
           </template>
         </v-number-input>
       </template>
@@ -27,10 +36,11 @@
 </template>
 
 <script setup lang="ts">
+import { mdiInformationOutline } from '@mdi/js'
 import { Snowflake } from '@skorotkiewicz/snowflake-id'
 import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
 import { computed, ref } from 'vue'
-import ClearButton from '@/components/ClearButton.vue'
+import ClearBtn from '@/components/ClearBtn.vue'
 import type { GeneratorProps } from '@generators/generator-props'
 import { useValueGenerator } from '@/helper/generator-helper'
 import { useGeneratorSettings } from '@/helper/generator-settings-helper'
@@ -38,7 +48,7 @@ import { useGeneratorSettings } from '@/helper/generator-settings-helper'
 const props = defineProps<GeneratorProps>()
 
 const machineIdMinValue = 0
-const machineIdMaxValue = 1023
+const machineIdMaxValue = 1_023
 const machineIdDefault = 0
 
 const machineId = ref<number | string>(machineIdDefault)

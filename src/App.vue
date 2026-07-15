@@ -4,51 +4,48 @@
   <about-dialog v-model="isAboutDialogOpen" />
 
   <v-app>
-    <v-app-bar>
-      <v-app-bar-title>
-        <app-icon-avatar>
-          <v-icon :icon="mdiIdentifier" size="40" />
-        </app-icon-avatar>
-        ID Buddy
-      </v-app-bar-title>
-      <template #append>
-        <v-menu>
-          <template #activator="{ props }">
-            <v-btn :icon="mdiDotsVertical" v-bind="props" />
-          </template>
+    <v-app-bar class="border-b-sm px-2">
+      <v-avatar border :size="44" variant="text" class="ml-2">
+        <v-icon :icon="mdiIdentifier" :size="40" />
+      </v-avatar>
+      <v-app-bar-title text="ID Buddy" class="ml-3" />
 
-          <template #default>
-            <app-main-menu>
-              <v-list-item
-                :prepend-icon="mdiCog"
-                title="Settings"
-                @click="isSettingsDialogOpen = true"
-              />
-              <switch-theme-list-item />
-              <v-divider />
-              <v-list-item
-                title="Reset App"
-                @click="isResetAppStateDialogOpen = true"
-              >
-                <template #prepend>
-                  <!-- Reserve space for item without icon -->
-                  <div style="width: 44px"></div>
-                </template>
-              </v-list-item>
-              <v-divider />
-              <v-list-item
-                :prepend-icon="mdiInformationOutline"
-                title="About"
-                @click="isAboutDialogOpen = true"
-              />
-            </app-main-menu>
-          </template>
-        </v-menu>
-      </template>
+      <v-menu>
+        <template #activator="{ props }">
+          <v-btn :icon="mdiDotsVertical" v-bind="props" />
+        </template>
+
+        <template #default>
+          <v-list class="bg-background py-0" density="compact" border slim>
+            <v-list-item
+              :prepend-icon="mdiCog"
+              title="Settings"
+              @click="isSettingsDialogOpen = true"
+            />
+            <switch-theme-list-item />
+            <v-divider />
+            <v-list-item
+              title="Reset App"
+              @click="isResetAppStateDialogOpen = true"
+            >
+              <template #prepend>
+                <!-- Reserve space for item without icon -->
+                <div style="width: 44px" />
+              </template>
+            </v-list-item>
+            <v-divider />
+            <v-list-item
+              :prepend-icon="mdiInformationOutline"
+              title="About"
+              @click="isAboutDialogOpen = true"
+            />
+          </v-list>
+        </template>
+      </v-menu>
     </v-app-bar>
 
     <v-main>
-      <v-container>
+      <v-container fluid>
         <v-alert
           v-if="areAllGeneratorsHidden"
           border="start"
@@ -65,14 +62,14 @@
           />
         </v-alert>
 
-        <v-row v-if="visibleGenerators.length">
+        <v-row v-if="visibleGenerators.length" density="comfortable">
           <template v-for="(generator, generatorIndex) in visibleGenerators">
             <v-col
-              cols="12"
+              :cols="12"
               :sm="computeSmColumnsCount(generatorIndex)"
               :md="computeMdColumnsCount(generatorIndex)"
             >
-              <Component
+              <component
                 :is="generator.component"
                 :title="generator.displayName"
                 :identifier="generator.identifier"

@@ -6,32 +6,46 @@
       @click:regenerate="() => generateValue(true)"
     >
       <template #settings>
-        <v-text-field
-          v-model.trim="format"
-          label="Date-fns format"
-          persistent-placeholder
-          :placeholder="useIso8601 ? 'ISO 8601' : undefined"
-          hint="List of date-fns format identifiers can be found at https://date-fns.org/v4.1.0/docs/format"
-          persistent-hint
-        >
-          <template #clear>
-            <clear-button @click="() => (format = formatDefault)" />
-          </template>
-        </v-text-field>
-        <v-select
-          class="mt-2"
-          clearable
-          hide-details
-          label="Date-fns locale"
-          v-model="selectedLocale"
-          :items="locales"
-          item-title="displayName"
-          item-value="code"
-        >
-          <template #clear>
-            <clear-button @click="() => (selectedLocale = localeDefault)" />
-          </template>
-        </v-select>
+        <v-row density="compact">
+          <v-col :cols="12" :lg="6">
+            <v-text-field
+              v-model.trim="format"
+              label="Date-fns format"
+              persistent-placeholder
+              :placeholder="useIso8601 ? 'ISO 8601' : undefined"
+              hint="Leave this text and persistent-hint so #message template gets rendered"
+              persistent-hint
+            >
+              <template #message>
+                <a
+                  href="https://date-fns.org/v4.4.0/docs/format"
+                  target="_other"
+                  >https://date-fns.org/v4.4.0/docs/format</a
+                >
+              </template>
+
+              <template #clear>
+                <clear-btn @click="() => (format = formatDefault)" />
+              </template>
+            </v-text-field>
+          </v-col>
+          <v-col :cols="12" :lg="6">
+            <v-select
+              clearable
+              label="Date-fns locale"
+              v-model="selectedLocale"
+              :items="locales"
+              item-title="displayName"
+              item-value="code"
+              hide-details
+              variant="solo-filled"
+            >
+              <template #clear>
+                <clear-btn @click="() => (selectedLocale = localeDefault)" />
+              </template>
+            </v-select>
+          </v-col>
+        </v-row>
       </template>
     </generator-expansion-panel>
   </v-expansion-panels>
@@ -41,7 +55,7 @@
 import { formatDate, formatISO, type FormatOptions } from 'date-fns'
 import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
 import { computed, ref } from 'vue'
-import ClearButton from '@/components/ClearButton.vue'
+import ClearBtn from '@/components/ClearBtn.vue'
 import * as dateFnsLocales from 'date-fns/locale'
 import type { Locale } from 'date-fns/locale'
 import type { GeneratorProps } from '@generators/generator-props'

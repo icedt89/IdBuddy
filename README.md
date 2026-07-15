@@ -17,6 +17,7 @@ Visit [ID Buddy](https://idbuddy.jan-hafner.de) now!
   - Snowflake ID
   - XID
   - Timestamp (you can use all the date-fns formats)
+  - Random string: specify length and prefix, ideal for keys
 - **Instant Generation:** Get new IDs with a single click. No more waiting! ⚡
 - **One-Click Copy:** Instantly copy generated IDs to your clipboard with a dedicated button. 📋
 - **Generation History:** Keep track of your recently generated IDs for easy reference. ⏳

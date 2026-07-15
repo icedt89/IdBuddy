@@ -12,12 +12,21 @@
           :max="seedTimeMaxValue"
           label="Seed Time"
           v-model="seedTimeProxy"
-          :hint="`Must be a positive integer (${seedTimeMinValue} -
-              ${seedTimeMaxValue})`"
-          persistent-hint
+          hide-details
         >
+          <template #append-inner>
+            <v-icon
+              size="small"
+              :icon="mdiInformationOutline"
+              v-tooltip="
+                `Positive integer (${seedTimeMinValue} -
+              ${seedTimeMaxValue})`
+              "
+            />
+          </template>
+
           <template #clear>
-            <clear-button @click="() => (seedTimeProxy = seedTimeDefault)" />
+            <clear-btn @click="() => (seedTimeProxy = seedTimeDefault)" />
           </template>
         </v-number-input>
       </template>
@@ -26,10 +35,11 @@
 </template>
 
 <script setup lang="ts">
+import { mdiInformationOutline } from '@mdi/js'
 import { ulid } from 'ulidx'
 import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
 import { computed, ref } from 'vue'
-import ClearButton from '@/components/ClearButton.vue'
+import ClearBtn from '@/components/ClearBtn.vue'
 import type { GeneratorProps } from '@generators/generator-props'
 import { useValueGenerator } from '@/helper/generator-helper'
 import { useGeneratorSettings } from '@/helper/generator-settings-helper'
@@ -37,7 +47,7 @@ import { useGeneratorSettings } from '@/helper/generator-settings-helper'
 const props = defineProps<GeneratorProps>()
 
 const seedTimeMinValue = 0
-const seedTimeMaxValue = 281474976710655
+const seedTimeMaxValue = 281_474_976_710_655
 const seedTimeDefault = undefined
 
 const seedTime = ref<number | string>('')

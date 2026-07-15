@@ -1,9 +1,14 @@
 <template>
-  <v-tooltip v-if="isSupported" text="Copy to clipboard">
-    <template #activator="{ props }">
-      <dense-icon-button v-bind="props" :icon="icon" @click="copyValue" />
-    </template>
-  </v-tooltip>
+  <v-btn
+    v-if="isSupported"
+    v-tooltip="'Copy to clipboard'"
+    :icon="icon"
+    @click="copyValue"
+    color="primary"
+    density="compact"
+    variant="text"
+    size="small"
+  />
 </template>
 
 <script setup lang="ts">
@@ -15,7 +20,7 @@ const props = defineProps<{
   value: string
 }>()
 
-const icon = refAutoReset(mdiContentCopy, 1500)
+const icon = refAutoReset(mdiContentCopy, 1_500)
 
 const { isSupported, copy } = useClipboard()
 

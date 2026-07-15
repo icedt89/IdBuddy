@@ -1,8 +1,8 @@
 <template>
-  <v-text-field readonly :model-value="value" hide-details>
+  <v-text-field readonly :value="value">
     <template #append-inner>
-      <copy-button :value="value" />
-      <regenerate-button
+      <copy-btn :value="value" />
+      <regenerate-btn
         v-if="!disableRegenerate"
         class="ml-1"
         @click="$emit('click:regenerate')"
@@ -19,8 +19,8 @@
 </style>
 
 <script setup lang="ts">
-import CopyButton from '@/components/CopyButton.vue'
-import RegenerateButton from '@/components/RegenerateButton.vue'
+import CopyBtn from '@/components/CopyBtn.vue'
+import RegenerateBtn from '@/components/RegenerateBtn.vue'
 
 const props = defineProps<{
   value: string

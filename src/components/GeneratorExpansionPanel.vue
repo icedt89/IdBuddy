@@ -3,18 +3,29 @@
     <v-expansion-panel-title>
       {{ title }}
     </v-expansion-panel-title>
-    <v-container>
+    <v-card-text>
       <generator-input
+        v-if="!$slots['default']"
         :disable-regenerate="disableRegenerate"
         @click:regenerate="$emit('click:regenerate')"
         :value="value"
+        hide-details
       />
-    </v-container>
+      <slot v-else name="default" />
+    </v-card-text>
     <v-expansion-panel-text v-if="!disableHistory || $slots['settings']">
-      <history v-if="!disableHistory" :items="history.items" />
       <template v-if="$slots['settings']">
-        <v-divider class="my-4" />
+        <v-divider class="mb-4" />
         <slot name="settings" />
+      </template>
+      <template v-if="!disableHistory && isHistoryEnabled">
+        <v-divider
+          :class="{
+            'my-4': $slots['settings'],
+            'mb-4': !$slots['settings'],
+          }"
+        />
+        <history :items="history.items" />
       </template>
     </v-expansion-panel-text>
   </v-expansion-panel>
@@ -42,6 +53,8 @@ const props = defineProps<{
   disableHistory?: boolean
   disableRegenerate?: boolean
 }>()
+
+const { isHistoryEnabled } = storeToRefs(useSettingsStore())
 
 const emits = defineEmits<{
   (e: 'click:regenerate'): void

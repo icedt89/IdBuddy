@@ -1,6 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["components.d.ts", "virtual-components.d.ts", "src/**/*.ts"],
+  "include": ["components.d.ts", "src/**/*.ts"],
   "exclude": ["node_modules", "dist", "public", "src/**/__tests__/*"],
   "compilerOptions": {
     "incremental": true,

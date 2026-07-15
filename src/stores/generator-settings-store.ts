@@ -39,7 +39,6 @@ export const useGeneratorSettingsStore = defineStore(
   },
   {
     persist: {
-      debug: true,
       afterHydrate: afterRestoreGeneratorSettingsStore,
     },
   }

@@ -11,12 +11,21 @@
           :max="lengthMaxValue"
           v-model="lengthProxy"
           label="Length"
-          :hint="`Must be a positive integer (1 -
-              ${lengthMaxValue})`"
-          persistent-hint
+          hide-details
         >
+          <template #append-inner>
+            <v-icon
+              size="small"
+              :icon="mdiInformationOutline"
+              v-tooltip="
+                `Positive integer (1 -
+              ${lengthMaxValue})`
+              "
+            />
+          </template>
+
           <template #clear>
-            <clear-button @click="() => (lengthProxy = lengthDefault)" />
+            <clear-btn @click="() => (lengthProxy = lengthDefault)" />
           </template>
         </v-number-input>
       </template>
@@ -25,10 +34,11 @@
 </template>
 
 <script setup lang="ts">
+import { mdiInformationOutline } from '@mdi/js'
 import { nanoid } from 'nanoid'
 import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
 import { computed, ref } from 'vue'
-import ClearButton from '@/components/ClearButton.vue'
+import ClearBtn from '@/components/ClearBtn.vue'
 import type { GeneratorProps } from '@generators/generator-props'
 import { useValueGenerator } from '@/helper/generator-helper'
 import { useGeneratorSettings } from '@/helper/generator-settings-helper'
@@ -36,7 +46,7 @@ import { useGeneratorSettings } from '@/helper/generator-settings-helper'
 const props = defineProps<GeneratorProps>()
 
 const lengthMinValue = 1
-const lengthMaxValue = 65536
+const lengthMaxValue = 65_536
 const lengthDefault = 21
 
 const length = ref<number | string>(lengthDefault)

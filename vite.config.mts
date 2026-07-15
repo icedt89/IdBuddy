@@ -1,12 +1,9 @@
-// Plugins
 import components from 'unplugin-vue-components/vite'
 import vue from '@vitejs/plugin-vue'
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 import viteFonts from 'unplugin-fonts/vite'
 import { version } from './package.json'
 import { ViteMinifyPlugin } from 'vite-plugin-minify'
-
-// Utilities
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
 
@@ -17,7 +14,6 @@ export const alias = {
   ),
 }
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
   const isProductionBuild = mode === 'production' && command === 'build'
 
@@ -51,8 +47,10 @@ export default defineConfig(({ mode, command }) => {
     resolve: {
       alias,
     },
+    // This is necessary for portless to work
     server: {
-      port: 3001,
+      host: '127.0.0.1',
+      port: Number(process.env.PORT) || undefined,
     },
     build: {
       sourcemap: !isProductionBuild,

@@ -6,12 +6,11 @@
       @click:regenerate="() => generateValue(true)"
     >
       <template #settings>
-        <v-switch
-          class="ml-1"
-          style="margin-top: -10px"
-          label="Format as Base64"
-          v-model="useBase64"
-        />
+        <v-card>
+          <v-card-text>
+            <v-switch label="Format as Base64" v-model="useBase64" />
+          </v-card-text>
+        </v-card>
       </template>
     </generator-expansion-panel>
   </v-expansion-panels>

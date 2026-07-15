@@ -6,44 +6,63 @@
       @click:regenerate="() => generateValue(true)"
     >
       <template #settings>
-        <v-text-field v-model="fingerprint" label="Fingerprint">
-          <template #clear>
-            <clear-button
-              tooltip-text="Reset"
-              @click="() => (fingerprint = '')"
-            />
-          </template>
-        </v-text-field>
+        <v-row density="compact">
+          <v-col :cols="12" :lg="6">
+            <v-text-field
+              v-model="fingerprint"
+              label="Fingerprint"
+              hide-details
+            >
+              <template #clear>
+                <clear-btn
+                  tooltip-text="Reset"
+                  @click="() => (fingerprint = fingerprintDefault)"
+                />
+              </template>
+            </v-text-field>
+          </v-col>
+          <v-col :cols="12" :lg="6">
+            <v-number-input
+              v-model="lengthProxy"
+              :min="lengthMinValue"
+              :max="lengthMaxValue"
+              label="Length"
+              hide-details
+            >
+              <template #append-inner>
+                <v-icon
+                  size="small"
+                  :icon="mdiInformationOutline"
+                  v-tooltip="
+                    `Positive integer (${lengthMinValue} -
+                  ${lengthMaxValue})`
+                  "
+                />
+              </template>
 
-        <v-number-input
-          v-model="lengthProxy"
-          :min="lengthMinValue"
-          :max="lengthMaxValue"
-          label="Length"
-          :hint="`Must be a positive integer (${lengthMinValue} -
-              ${lengthMaxValue})`"
-          persistent-hint
-        >
-          <template #clear>
-            <clear-button
-              tooltip-text="Reset"
-              @click="() => (lengthProxy = lengthDefault)"
-            />
-          </template>
-        </v-number-input>
+              <template #clear>
+                <clear-btn
+                  tooltip-text="Reset"
+                  @click="() => (lengthProxy = lengthDefault)"
+                />
+              </template>
+            </v-number-input>
+          </v-col>
+        </v-row>
       </template>
     </generator-expansion-panel>
   </v-expansion-panels>
 </template>
 
 <script setup lang="ts">
+import { mdiInformationOutline } from '@mdi/js'
 import {
   init as initCuid2,
   getConstants as getCuid2Defaults,
 } from '@paralleldrive/cuid2'
 import GeneratorExpansionPanel from '@/components/GeneratorExpansionPanel.vue'
 import { computed, ref } from 'vue'
-import ClearButton from '@/components/ClearButton.vue'
+import ClearBtn from '@/components/ClearBtn.vue'
 import type { GeneratorProps } from '@generators/generator-props'
 import { useValueGenerator } from '@/helper/generator-helper'
 import { useGeneratorSettings } from '@/helper/generator-settings-helper'

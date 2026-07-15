@@ -1,24 +1,18 @@
-// Vuetify
-@layer vuetify-core.reset {
-  ul {
-    padding: 0;
-    margin: 0;
-  }
-
-  h5 {
-    margin: 0;
-  }
-}
-
-// Other
-html {
-  overflow-y: auto;
-}
-
 .v-expansion-panel-text__wrapper,
 .v-expansion-panel-title {
   padding-left: 16px;
   padding-right: 16px;
+}
+
+.v-radio-group {
+  .v-label {
+    margin-inline-start: 0;
+  }
+
+  .v-selection-control-group {
+    margin-top: 0;
+    padding-inline-start: 0;
+  }
 }
 
 a {
@@ -35,6 +29,6 @@ a {
   }
 }
 
-.heart-red {
+.only-love {
   color: #ff1744;
 }

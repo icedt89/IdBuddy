@@ -1,7 +1,6 @@
 import { generators } from '@generators/generators'
-import { watchImmediate } from '@vueuse/core'
 import { defineStore, type PiniaPluginContext } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useTheme } from 'vuetify'
 
 export const defaultHistorySize = 5
@@ -17,7 +16,7 @@ export const useSettingsStore = defineStore(
     const { change: changeTheme } = useTheme()
 
     const currentTheme = ref<KnownTheme>('softDark')
-    watchImmediate(currentTheme, changeTheme)
+    watch(currentTheme, (v) => changeTheme(v, false))
 
     const historySize = ref(defaultHistorySize)
     const isHistoryEnabled = computed(() => !!historySize.value)

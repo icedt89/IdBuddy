@@ -8,51 +8,27 @@
       @click:regenerate="() => generateValue(true)"
     >
       <template #settings>
-        <v-row>
-          <v-col>
-            <v-radio-group
-              label="Function"
-              v-model="uuidFunction"
-              inline
-              hide-details
-            >
-              <v-radio label="v7" value="v7" v-if="isFunctionAllowed('v7')" />
-              <v-radio
-                label="NIL"
-                value="NIL"
-                v-if="isFunctionAllowed('NIL')"
-              />
-              <v-radio label="v4" value="v4" v-if="isFunctionAllowed('v4')" />
-              <v-radio
-                label="MAX"
-                value="MAX"
-                v-if="isFunctionAllowed('MAX')"
-              />
-            </v-radio-group>
-          </v-col>
-          <v-col>
-            <casing-selector v-model="casing" />
-          </v-col>
-        </v-row>
+        <v-card>
+          <v-card-text>
+            <v-row>
+              <v-col>
+                <uuid-function-selector
+                  v-model="uuidFunction"
+                  :allowed-functions="allowedFunctions"
+                />
+              </v-col>
+              <v-col>
+                <casing-selector v-model="casing" />
+              </v-col>
+            </v-row>
 
-        <uuid-format-selector v-model="format" />
+            <uuid-format-selector v-model="format" />
+          </v-card-text>
+        </v-card>
       </template>
     </generator-expansion-panel>
   </v-expansion-panels>
 </template>
-
-<style lang="scss" scoped>
-:deep(.v-label) {
-  margin-inline-start: 0;
-}
-
-:deep(
-  .v-radio-group > .v-input__control > .v-label + .v-selection-control-group
-) {
-  margin-top: 0;
-  padding-inline-start: 0;
-}
-</style>
 
 <script setup lang="ts">
 import { v4, v7, NIL, MAX } from 'uuid'
@@ -66,9 +42,9 @@ import {
   formatUuid,
   type Casing,
   type UuidFormat,
+  type UuidFunction,
 } from '@/helper/uuid-helper'
-
-type UuidFunction = 'v4' | 'v7' | 'NIL' | 'MAX'
+import UuidFunctionSelector from '@/components/UuidFunctionSelector.vue'
 
 interface Props extends GeneratorProps {
   allowedFunctions: UuidFunction[]
@@ -78,10 +54,6 @@ interface Props extends GeneratorProps {
 }
 
 const props = defineProps<Props>()
-
-const allowedFunctions = computed(
-  () => new Set<UuidFunction>(props.allowedFunctions)
-)
 
 const casingDefault: Casing = 'lower'
 const formatDefault: UuidFormat = 'D'
@@ -95,10 +67,6 @@ const settingsObject = computed(() => ({
   uuidFunction: uuidFunction.value,
   casing: casing.value,
 }))
-
-function isFunctionAllowed(uuidFunction: UuidFunction) {
-  return allowedFunctions.value.has(uuidFunction)
-}
 
 function generateUuid() {
   switch (uuidFunction.value) {

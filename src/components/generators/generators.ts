@@ -1,4 +1,5 @@
 import type { Component } from 'vue'
+import { randomString } from '@generators/random-string'
 import { timestamp } from '@generators/timestamp'
 import { nanoId } from '@generators/nano-id'
 import { snowflakeId } from '@generators/snowflake-id'
@@ -18,6 +19,7 @@ export interface GeneratorMetadata {
 export const generators = [
   uuidStatic,
   uuid,
+  randomString,
   timestamp,
   ulid,
   xid,

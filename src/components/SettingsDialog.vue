@@ -1,16 +1,16 @@
 <template>
-  <v-dialog max-width="500" :fullscreen="xs">
+  <v-dialog :max-width="550" :fullscreen="xs" :capture-focus="false">
     <template #default="{ isActive }">
       <v-card title="Settings">
-        <v-card-text class="pb-0">
-          <v-row>
+        <v-card-text>
+          <v-row density="compact">
             <v-col>
               <v-number-input
                 v-model="historySizeProxy"
                 required
                 label="History size"
                 :min="historySizeMinValue"
-                hint="Size of the history before items get overwritten"
+                hint="Size of the history before items are overwritten"
                 :messages="historySizeMessage"
               />
             </v-col>
@@ -25,25 +25,24 @@
               />
             </v-col>
           </v-row>
-          <v-row class="mb-2">
-            <v-col>
-              <v-switch
-                v-model="automaticallyCopyToClipboardAfterManualRegenerate"
-                label="Automatically copy to clipboard after manual regenerate"
-              />
-            </v-col>
-          </v-row>
+
+          <v-switch
+            class="my-2"
+            v-model="automaticallyCopyToClipboardAfterManualRegenerate"
+            label="Automatically copy to clipboard after manual regenerate"
+          />
+
           <v-card>
-            <v-card-title class="pb-0 text-body-large font-weight-light">
+            <v-card-title class="text-body-large font-weight-light">
               Generators
             </v-card-title>
-            <v-card-text class="pb-0">
+            <v-card-text>
               <v-row no-gutters>
                 <v-col
                   v-for="generator in generators"
                   :key="generator.identifier"
-                  cols="12"
-                  sm="6"
+                  :cols="12"
+                  :sm="6"
                 >
                   <v-switch
                     @update:model-value="
@@ -59,7 +58,7 @@
           </v-card>
         </v-card-text>
         <v-card-actions>
-          <close-dialog-button @click="isActive.value = false" />
+          <v-btn @click="isActive.value = false" text="Close" />
         </v-card-actions>
       </v-card>
     </template>

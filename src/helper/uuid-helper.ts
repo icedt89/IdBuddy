@@ -1,5 +1,8 @@
 export type Casing = 'upper' | 'lower'
+
 export type UuidFormat = 'D' | 'N' | 'B' | 'P'
+
+export type UuidFunction = 'v4' | 'v7' | 'NIL' | 'MAX'
 
 export function formatUuid(uuid: string, format: UuidFormat) {
   switch (format) {

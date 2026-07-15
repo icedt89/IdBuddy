@@ -1,5 +1,5 @@
 import type { GeneratorMetadata } from '@generators/generators'
-import UuidStatic from '@/components/generators/UuidStatic.vue'
+import UuidStatic from '@generators/UuidStatic.vue'
 
 export const uuidStatic: GeneratorMetadata = {
   identifier: 'uuid-static',
